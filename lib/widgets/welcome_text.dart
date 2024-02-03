@@ -81,6 +81,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                     'Bom dia, Henrique',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      fontFamily: 'NotoSans',
                     ),
                   ),
                 ),
@@ -88,6 +90,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                   '$dayOfWeekName, $day de $monthName',
                   style: TextStyle(
                     color: Colors.grey[500],
+                    fontSize: 20,
+                    fontFamily: 'NotoSans',
                   ),
                 ),
               ],

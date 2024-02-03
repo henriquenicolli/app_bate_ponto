@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
 import 'package:flutter_app_bate_ponto/pages/inicio_page.dart';
 import 'package:flutter_app_bate_ponto/pages/para_mim_page.dart';
 import 'package:flutter_app_bate_ponto/pages/ponto_page.dart';
@@ -34,7 +35,13 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
-        title: const Text('Bate Ponto'),
+        title: const Text(
+          'Bate Ponto',
+          style: TextStyle(
+              fontFamily: 'NotoSans',
+              fontWeight: FontWeight.bold,
+              color: AppColors.buttonColor),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
