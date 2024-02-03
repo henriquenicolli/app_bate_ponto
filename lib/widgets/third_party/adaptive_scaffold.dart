@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
 
 bool _isLargeScreen(BuildContext context) {
   return MediaQuery.of(context).size.width > 960.0;
@@ -100,6 +101,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
         body: Row(
           children: [
             NavigationRail(
+              backgroundColor: AppColors.primaryColor,
               leading: widget.floatingActionButton,
               destinations: [
                 ...widget.destinations.map(
@@ -131,8 +133,10 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
       appBar: AppBar(
         title: widget.title,
         actions: widget.actions,
+        backgroundColor: AppColors.primaryColor,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppColors.primaryColor,
         items: [
           ...widget.destinations.map(
             (d) => BottomNavigationBarItem(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/widgets/navigation_bar_widget.dart';
+import 'package:flutter_app_bate_ponto/widgets/navigation_bar.dart';
 
 void main() {
   runApp(const AppBarApp());

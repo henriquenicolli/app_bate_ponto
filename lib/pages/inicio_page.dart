@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/widgets/welcome_widget.dart';
+import 'package:flutter_app_bate_ponto/widgets/registrar_ponto_button.dart';
+import 'package:flutter_app_bate_ponto/widgets/welcome_text.dart';
 
 class InicioPage extends StatelessWidget {
   const InicioPage({super.key});
@@ -8,9 +9,7 @@ class InicioPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Material(
       child: Column(
-        children: [
-          WelcomeWidget(),
-        ],
+        children: [WelcomeWidget(), RegistrarPontoButton()],
       ),
     );
   }
