@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
 
-class HorasPainel extends StatelessWidget {
-  const HorasPainel({super.key});
+class HorasTrabalhadasPainel extends StatelessWidget {
+  const HorasTrabalhadasPainel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class HorasPainel extends StatelessWidget {
       ),
       child: const SizedBox(
         width: 400.0,
-        height: 150.0,
+        //height: 150.0,
         child: Column(
           children: [
             HorasTrabalhadas(),
@@ -46,7 +46,7 @@ class HorasTrabalhadas extends StatelessWidget {
         style: TextStyle(
           color: AppColors.secondaryColor,
           fontWeight: FontWeight.bold,
-          fontSize: 15,
+          fontSize: 18,
           fontFamily: 'NotoSans',
         ),
       ),
@@ -64,7 +64,7 @@ class EntradasSaidasText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Align(
         alignment: Alignment.center,
         child: Row(
