@@ -9,7 +9,17 @@ class InicioPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Material(
       child: Column(
-        children: [WelcomeWidget(), RegistrarPontoButton()],
+        children: [
+          WelcomeWidget(),
+          RegistrarPontoButton(),
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: Text(
+              'Quadro de avisos',
+              softWrap: true,
+            ),
+          )
+        ],
       ),
     );
   }

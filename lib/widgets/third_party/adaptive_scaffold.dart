@@ -137,6 +137,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.primaryColor,
+        fixedColor: AppColors.secondaryColor,
         items: [
           ...widget.destinations.map(
             (d) => BottomNavigationBarItem(

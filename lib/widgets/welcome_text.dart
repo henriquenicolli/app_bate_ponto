@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timezone/timezone.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({super.key});
@@ -64,7 +65,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String day = now.day.toString();
-    String dayOfWeekName = _getDayOfWeek(now.weekday + 1);
+    String dayOfWeekName = _getDayOfWeek(now.weekday);
     String monthName = _getMonthName(now.month);
 
     return Padding(

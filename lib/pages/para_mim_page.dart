@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/widgets/ponto_eletronico_text.dart';
 
 class ParaMimPage extends StatelessWidget {
   const ParaMimPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Material(
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Text('Para Mim!'),
-            ),
-          ),
-        ],
-      ),
-    );
+    return const PontoEletronicoText(title: 'Em construcao');
   }
 }

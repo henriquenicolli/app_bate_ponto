@@ -30,24 +30,57 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
     return const ParaMimPage();
   }
 
-  _handleAlert() {}
+  _mostrarInformacoes() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Informações'),
+          content: Text(
+              'Este aplicativo e um desenvolvimento de Henrique Biondo Nicolli Soares \nWhats (43) 99630-9395'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Fecha o Dialog
+              },
+              child: Text('Fechar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
-        title: const Text(
-          'Bate Ponto',
-          style: TextStyle(
-              fontFamily: 'NotoSans',
-              fontWeight: FontWeight.bold,
-              color: AppColors.buttonColor),
+        title: const Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.timelapse,
+                color: AppColors.secondaryColor,
+              ),
+            ),
+            Text(
+              'Bate Ponto',
+              style: TextStyle(
+                  fontFamily: 'NotoSans',
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.secondaryColor),
+            ),
+          ],
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () => _handleAlert(),
+              icon: const Icon(
+                Icons.info,
+                color: AppColors.secondaryColor,
+              ),
+              onPressed: () => _mostrarInformacoes(),
             ),
           )
         ],
