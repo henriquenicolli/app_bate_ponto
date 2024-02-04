@@ -13,7 +13,7 @@ class InicioPage extends StatelessWidget {
           WelcomeWidget(),
           RegistrarPontoButton(),
           Padding(
-            padding: const EdgeInsets.all(32),
+            padding: EdgeInsets.all(32),
             child: Text(
               'Quadro de avisos',
               softWrap: true,

@@ -35,8 +35,8 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Informações'),
-          content: Text(
+          title: const Text('Informações'),
+          content: const Text(
               'Este aplicativo e um desenvolvimento de Henrique Biondo Nicolli Soares \nWhats (43) 99630-9395'),
           actions: [
             TextButton(

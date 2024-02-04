@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/widgets/ponto_eletronico_text.dart';
+import 'package:flutter_app_bate_ponto/widgets/horas_painel.dart';
 import 'package:flutter_app_bate_ponto/widgets/toggle_button.dart';
 
 class PontoPage extends StatefulWidget {
@@ -16,6 +16,9 @@ class _PontoPageState extends State<PontoPage> {
       children: [
         //PontoEletronicoText(),
         CustomToggleButtons(),
+        Spacer(flex: 1),
+        HorasPainel(),
+        Spacer(flex: 18),
       ],
     );
   }

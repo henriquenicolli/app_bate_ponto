@@ -9,7 +9,7 @@ class PontoEletronicoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: Align(
         alignment: Alignment.topLeft,
         child: Text(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:timezone/timezone.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({super.key});
