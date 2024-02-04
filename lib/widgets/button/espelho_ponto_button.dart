@@ -20,14 +20,13 @@ class EspelhoPontoButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.secondaryColor,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(
-              horizontal: 30, vertical: 10), // Espaçamento interno do botão
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
         child: const Text(
-          'espelho de ponto',
+          'Espelho de ponto',
           style: TextStyle(fontSize: 20),
         ),
       ),

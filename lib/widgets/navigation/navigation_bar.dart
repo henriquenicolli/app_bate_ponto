@@ -14,7 +14,7 @@ class CustomNavigationBar extends StatefulWidget {
 
 /*
 * ADAPTATIVE NAVIGATION BAR
-*/
+**/
 class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
   int currentPageIndex = 0;
 
