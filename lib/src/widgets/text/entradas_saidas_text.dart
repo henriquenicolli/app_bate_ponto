@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class EntradasSaidasText extends StatelessWidget {
   final String text1;
@@ -14,10 +15,9 @@ class EntradasSaidasText extends StatelessWidget {
         child: Text(
           text1,
           style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-            fontFamily: 'NotoSans',
-          ),
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              fontFamily: AppLayoutDefaults.fontFamily),
         ),
       ),
     );

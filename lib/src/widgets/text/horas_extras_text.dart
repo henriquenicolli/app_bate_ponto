@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class HorasExtrasText extends StatelessWidget {
   const HorasExtrasText({
@@ -13,11 +13,10 @@ class HorasExtrasText extends StatelessWidget {
       child: Text(
         'horas extras diretas',
         style: TextStyle(
-          color: AppColors.secondaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-          fontFamily: 'NotoSans',
-        ),
+            color: AppLayoutDefaults.secondaryColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontFamily: AppLayoutDefaults.fontFamily),
       ),
     );
   }

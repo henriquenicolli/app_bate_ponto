@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class PontoEletronicoText extends StatelessWidget {
   final String title;
@@ -15,11 +15,10 @@ class PontoEletronicoText extends StatelessWidget {
         child: Text(
           title,
           style: const TextStyle(
-            color: AppColors.secondaryColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-            fontFamily: 'NotoSans',
-          ),
+              color: AppLayoutDefaults.secondaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              fontFamily: AppLayoutDefaults.fontFamily),
         ),
       ),
     );

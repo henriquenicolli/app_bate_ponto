@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
-import '../../pages/espelho_ponto.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import '../../pages/espelho_ponto_page.dart';
 
 class EspelhoPontoButton extends StatelessWidget {
   const EspelhoPontoButton({super.key});
@@ -15,11 +15,11 @@ class EspelhoPontoButton extends StatelessWidget {
           // Ação a ser executada ao pressionar o botão
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => EspelhoPonto()),
+            MaterialPageRoute(builder: (context) => EspelhoPontoPage()),
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondaryColor,
+          backgroundColor: AppLayoutDefaults.secondaryColor,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           shape: RoundedRectangleBorder(

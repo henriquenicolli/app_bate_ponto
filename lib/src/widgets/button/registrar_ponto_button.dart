@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -17,7 +17,7 @@ class RegistrarPontoButton extends StatelessWidget {
           registraPonto();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondaryColor,
+          backgroundColor: AppLayoutDefaults.secondaryColor,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           shape: RoundedRectangleBorder(

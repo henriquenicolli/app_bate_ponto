@@ -1,41 +1,36 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
-import 'package:flutter_app_bate_ponto/model/controle_ponto.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 import '../widgets/listview/espelho_ponto_list_view.dart';
 import 'package:http/http.dart' as http;
 
-class EspelhoPonto extends StatefulWidget {
-  EspelhoPonto({super.key});
+class EspelhoPontoPage extends StatefulWidget {
+  const EspelhoPontoPage({super.key});
 
   @override
-  State<EspelhoPonto> createState() => _EspelhoPontoState();
+  State<EspelhoPontoPage> createState() => _EspelhoPontoPageState();
 }
 
-Future<List<ControlePonto>> getControlePonto() async {
+Future<List<RegistroPonto>> getRegistrosPontoList() async {
   final response = await http
       .get(Uri.parse('http://localhost:10000/v1/bateponto/registros'));
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
     List<dynamic> jsonResponse = json.decode(response.body);
-    return jsonResponse.map((json) => ControlePonto.fromJson(json)).toList();
+    return jsonResponse.map((json) => RegistroPonto.fromJson(json)).toList();
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load registros de ponto');
   }
 }
 
-class _EspelhoPontoState extends State<EspelhoPonto> {
-  late Future<List<ControlePonto>> items;
+class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
+  late Future<List<RegistroPonto>> items;
 
   @override
   void initState() {
     super.initState();
-    items = getControlePonto();
+    items = getRegistrosPontoList();
   }
 
   @override
@@ -47,18 +42,18 @@ class _EspelhoPontoState extends State<EspelhoPonto> {
             padding: EdgeInsets.all(8.0),
             child: Icon(
               Icons.timelapse,
-              color: AppColors.secondaryColor,
+              color: AppLayoutDefaults.secondaryColor,
             ),
           ),
           Text(
             'Espelho de ponto',
             style: TextStyle(
-                fontFamily: 'NotoSans',
+                fontFamily: AppLayoutDefaults.fontFamily,
                 fontWeight: FontWeight.bold,
-                color: AppColors.secondaryColor),
+                color: AppLayoutDefaults.secondaryColor),
           ),
         ])),
-        body: FutureBuilder<List<ControlePonto>>(
+        body: FutureBuilder<List<RegistroPonto>>(
           future: items,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -66,7 +61,6 @@ class _EspelhoPontoState extends State<EspelhoPonto> {
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
-            // By default, show a loading spinner.
             return const CircularProgressIndicator();
           },
         ));

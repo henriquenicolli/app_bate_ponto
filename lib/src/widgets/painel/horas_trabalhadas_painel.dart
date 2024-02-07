@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class HorasTrabalhadasPainel extends StatelessWidget {
   const HorasTrabalhadasPainel({super.key});
@@ -44,10 +44,10 @@ class HorasTrabalhadas extends StatelessWidget {
       child: Text(
         '08:00 horas trabalhadas',
         style: TextStyle(
-          color: AppColors.secondaryColor,
+          color: AppLayoutDefaults.secondaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 18,
-          fontFamily: 'NotoSans',
+          fontFamily: AppLayoutDefaults.fontFamily,
         ),
       ),
     );
@@ -74,19 +74,17 @@ class EntradasSaidasText extends StatelessWidget {
             Text(
               text1,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                fontFamily: 'NotoSans',
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  fontFamily: AppLayoutDefaults.fontFamily),
             ),
             const Spacer(flex: 5),
             Text(
               text2,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                fontFamily: 'NotoSans',
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  fontFamily: AppLayoutDefaults.fontFamily),
             ),
             const Spacer(flex: 5),
           ],

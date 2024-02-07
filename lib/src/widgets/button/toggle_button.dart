@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class CustomToggleButtons extends StatelessWidget {
   const CustomToggleButtons({super.key});
@@ -40,10 +40,10 @@ class _ToggleButtonsState extends State<_ToggleButtons> {
                 });
               },
               borderRadius: const BorderRadius.all(Radius.circular(8)),
-              selectedBorderColor: AppColors.secondaryColor,
-              selectedColor: AppColors.backgroundColor,
-              fillColor: AppColors.secondaryColor,
-              color: AppColors.secondaryColor,
+              selectedBorderColor: AppLayoutDefaults.secondaryColor,
+              selectedColor: AppLayoutDefaults.backgroundColor,
+              fillColor: AppLayoutDefaults.secondaryColor,
+              color: AppLayoutDefaults.secondaryColor,
               isSelected: _selectedState,
               children: texts,
             )

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/configuration/app_colors.dart';
-import 'package:flutter_app_bate_ponto/pages/inicio_page.dart';
-import 'package:flutter_app_bate_ponto/pages/para_mim_page.dart';
-import 'package:flutter_app_bate_ponto/pages/ponto_page.dart';
-import 'package:flutter_app_bate_ponto/widgets/third_party/adaptive_scaffold.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/pages/inicio_page.dart';
+import 'package:flutter_app_bate_ponto/src/pages/para_mim_page.dart';
+import 'package:flutter_app_bate_ponto/src/pages/ponto_page.dart';
+import 'package:flutter_app_bate_ponto/src/widgets/third_party/adaptive_scaffold.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({super.key});
@@ -60,15 +60,15 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
               padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.timelapse,
-                color: AppColors.secondaryColor,
+                color: AppLayoutDefaults.secondaryColor,
               ),
             ),
             Text(
               'Bate Ponto',
               style: TextStyle(
-                  fontFamily: 'NotoSans',
+                  fontFamily: AppLayoutDefaults.fontFamily,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.secondaryColor),
+                  color: AppLayoutDefaults.secondaryColor),
             ),
           ],
         ),
@@ -78,7 +78,7 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
             child: IconButton(
               icon: const Icon(
                 Icons.info,
-                color: AppColors.secondaryColor,
+                color: AppLayoutDefaults.secondaryColor,
               ),
               onPressed: () => _mostrarInformacoes(),
             ),

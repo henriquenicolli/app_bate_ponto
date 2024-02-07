@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/model/controle_ponto.dart';
-import 'package:flutter_app_bate_ponto/widgets/selector/mes_selector_state.dart';
+import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
+import 'package:flutter_app_bate_ponto/src/widgets/selector/mes_selector_state.dart';
 
 class EspelhoPontoListView extends StatefulWidget {
-  final List<ControlePonto> items;
+  final List<RegistroPonto> items;
 
   const EspelhoPontoListView({super.key, required this.items});
 

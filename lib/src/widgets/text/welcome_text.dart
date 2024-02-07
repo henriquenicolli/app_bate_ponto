@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({super.key});
@@ -28,19 +29,17 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                   child: Text(
                     'Bom dia, Henrique',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      fontFamily: 'NotoSans',
-                    ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        fontFamily: AppLayoutDefaults.fontFamily),
                   ),
                 ),
                 Text(
                   '$dayOfWeekName, $day de $monthName',
                   style: TextStyle(
-                    color: Colors.grey[500],
-                    fontSize: 20,
-                    fontFamily: 'NotoSans',
-                  ),
+                      color: Colors.grey[500],
+                      fontSize: 20,
+                      fontFamily: AppLayoutDefaults.fontFamily),
                 ),
               ],
             ),
