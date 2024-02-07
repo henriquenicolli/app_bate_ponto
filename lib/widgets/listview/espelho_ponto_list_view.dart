@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/model/controle_ponto.dart';
 import 'package:flutter_app_bate_ponto/widgets/selector/mes_selector_state.dart';
 
 class EspelhoPontoListView extends StatefulWidget {
-  final List<String> items;
+  final List<ControlePonto> items;
 
   const EspelhoPontoListView({super.key, required this.items});
 
@@ -22,7 +23,8 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
             itemCount: widget.items.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(widget.items[index]),
+                title:
+                    Text(widget.items[index].dataHoraRegistroPonto.toString()),
               );
             },
             separatorBuilder: (BuildContext context, int index) =>
