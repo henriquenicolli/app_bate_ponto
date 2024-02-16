@@ -6,29 +6,38 @@ import 'dart:convert';
 class RegistrarPontoButton extends StatelessWidget {
   const RegistrarPontoButton({super.key});
 
-  Future<http.Response> registraPonto(BuildContext context) async {
-    final String dataHoraRegistroPonto = DateTime.now().toIso8601String();
+  void registraPonto(BuildContext context) async {
+    try {
+      final String dataHoraRegistroPonto = DateTime.now().toIso8601String();
 
-    http.Response response = await http.post(
-      Uri.parse('http://localhost:10000/v1/bateponto/registrar'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'dataHoraRegistroPonto': dataHoraRegistroPonto,
-      }),
-    );
-
-    if (response.statusCode == 200 || response.statusCode == 202) {
-      // Exibir Snackbar de sucesso
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Ponto registrado com sucesso'),
-          backgroundColor: Colors.green,
-        ),
+      http.Response response = await http.post(
+        Uri.parse('http://localhost:10000/v1/bateponto/registrar'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'dataHoraRegistroPonto': dataHoraRegistroPonto,
+        }),
       );
-    } else {
-      // Exibir Snackbar de erro
+
+      if (response.statusCode == 200 || response.statusCode == 202) {
+        // Exibir Snackbar de sucesso
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Ponto registrado com sucesso'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        // Exibir Snackbar de erro
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro durante registro de ponto'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (exc) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro durante registro de ponto'),
@@ -36,8 +45,6 @@ class RegistrarPontoButton extends StatelessWidget {
         ),
       );
     }
-
-    return response;
   }
 
   Future<void> _registrarPontoDialog(BuildContext context) async {
