@@ -15,7 +15,7 @@ class EspelhoPontoButton extends StatelessWidget {
           // Ação a ser executada ao pressionar o botão
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => EspelhoPontoPage()),
+            MaterialPageRoute(builder: (context) => const EspelhoPontoPage()),
           );
         },
         style: ElevatedButton.styleFrom(
