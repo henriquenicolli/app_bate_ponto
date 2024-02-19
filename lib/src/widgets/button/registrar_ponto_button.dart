@@ -3,23 +3,29 @@ import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dar
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
 class RegistrarPontoButton extends StatelessWidget {
   const RegistrarPontoButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(width: 300, height: 70, child: ApiCallDialog());
+    return const SizedBox(
+        width: 300, height: 70, child: RegistrarPontoApiCallDialog());
   }
 }
 
-class ApiCallDialog extends StatefulWidget {
-  const ApiCallDialog({super.key});
+class RegistrarPontoApiCallDialog extends StatefulWidget {
+  const RegistrarPontoApiCallDialog({super.key});
 
   @override
-  _ApiCallDialogState createState() => _ApiCallDialogState();
+  _RegistrarPontoApiCallDialogState createState() =>
+      _RegistrarPontoApiCallDialogState();
 }
 
-class _ApiCallDialogState extends State<ApiCallDialog> {
+class _RegistrarPontoApiCallDialogState
+    extends State<RegistrarPontoApiCallDialog> {
   Future<void> _registraPonto() async {
     try {
       final String dataHoraRegistroPonto = DateTime.now().toIso8601String();
@@ -90,6 +96,7 @@ class _ApiCallDialogState extends State<ApiCallDialog> {
                 child: ListBody(
                   children: <Widget>[
                     Text('Deseja confirmar o registro de ponto?'),
+                    MapScreen()
                   ],
                 ),
               ),
@@ -114,4 +121,44 @@ class _ApiCallDialogState extends State<ApiCallDialog> {
       },
     );
   }
+}
+
+class MapScreen extends StatefulWidget {
+  const MapScreen({super.key});
+
+  @override
+  State<MapScreen> createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 100,
+      height: 100,
+      child: FlutterMap(
+        options: const MapOptions(
+          initialCenter: LatLng(-23.050653073126195, -50.07696979868193),
+          initialZoom: 19.2,
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.example.app',
+          ),
+          RichAttributionWidget(
+            attributions: [
+              TextSourceAttribution(
+                'OpenStreetMap contributors',
+                onTap: () =>
+                    launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  launchUrl(Uri parse) {}
 }
