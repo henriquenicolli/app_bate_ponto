@@ -155,6 +155,17 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ],
           ),
+          const MarkerLayer(markers: [
+            Marker(
+              point: LatLng(-23.050653073126195, -50.07696979868193),
+              width: 80,
+              height: 80,
+              child: Icon(
+                Icons.location_on,
+                color: Colors.red,
+              ),
+            ),
+          ])
         ],
       ),
     );
