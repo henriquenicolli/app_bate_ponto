@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 
 class RegistrarPontoButton extends StatelessWidget {
   const RegistrarPontoButton({super.key});
@@ -131,36 +132,74 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  MapController mapController = MapController();
+  Location location = Location();
+  LocationData currentLocation = LocationData.fromMap({
+    'latitude': -23.5505,
+    'longitude': -46.6333,
+  });
+
+  @override
+  void initState() {
+    super.initState();
+    _getLocation();
+  }
+
+  void _getLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    try {
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          throw 'Serviço de localização desativado.';
+        }
+      }
+
+      _permissionGranted = await location.hasPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        _permissionGranted = await location.requestPermission();
+        if (_permissionGranted != PermissionStatus.granted) {
+          throw 'Permissão de localização não concedida.';
+        }
+      }
+
+      _locationData = await location.getLocation();
+      setState(() {
+        currentLocation = _locationData;
+        mapController.move(
+          LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          13.0,
+        );
+      });
+    } catch (e) {
+      print('Erro ao obter localização: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 100,
       height: 100,
       child: FlutterMap(
-        options: const MapOptions(
-          initialCenter: LatLng(-23.050653073126195, -50.07696979868193),
+        mapController: mapController,
+        options: MapOptions(
+          initialCenter:
+              LatLng(currentLocation.latitude!, currentLocation.longitude!),
           initialZoom: 19.2,
         ),
         children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.app',
-          ),
-          RichAttributionWidget(
-            attributions: [
-              TextSourceAttribution(
-                'OpenStreetMap contributors',
-                onTap: () =>
-                    launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
-              ),
-            ],
-          ),
-          const MarkerLayer(markers: [
+          MarkerLayer(markers: [
             Marker(
-              point: LatLng(-23.050653073126195, -50.07696979868193),
+              point:
+                  LatLng(currentLocation.latitude!, currentLocation.longitude!),
               width: 80,
               height: 80,
-              child: Icon(
+              child: const Icon(
                 Icons.location_on,
                 color: Colors.red,
               ),
