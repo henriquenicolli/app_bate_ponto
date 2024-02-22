@@ -7,6 +7,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
+LocationData currentLocation = LocationData.fromMap({
+  'latitude': -23.5505,
+  'longitude': -46.6333,
+});
+
 class RegistrarPontoButton extends StatelessWidget {
   const RegistrarPontoButton({super.key});
 
@@ -38,6 +43,8 @@ class _RegistrarPontoApiCallDialogState
         },
         body: jsonEncode(<String, String>{
           'dataHoraRegistroPonto': dataHoraRegistroPonto,
+          'latitude': currentLocation.latitude.toString(),
+          'longitude': currentLocation.longitude.toString(),
         }),
       );
 
@@ -134,10 +141,6 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   MapController mapController = MapController();
   Location location = Location();
-  LocationData currentLocation = LocationData.fromMap({
-    'latitude': -23.5505,
-    'longitude': -46.6333,
-  });
 
   @override
   void initState() {
@@ -172,7 +175,7 @@ class _MapScreenState extends State<MapScreen> {
         currentLocation = _locationData;
         mapController.move(
           LatLng(currentLocation.latitude!, currentLocation.longitude!),
-          13.0,
+          17,
         );
       });
     } catch (e) {
@@ -190,9 +193,22 @@ class _MapScreenState extends State<MapScreen> {
         options: MapOptions(
           initialCenter:
               LatLng(currentLocation.latitude!, currentLocation.longitude!),
-          initialZoom: 19.2,
+          initialZoom: 14,
         ),
         children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.example.app',
+          ),
+          RichAttributionWidget(
+            attributions: [
+              TextSourceAttribution(
+                'OpenStreetMap contributors',
+                onTap: () =>
+                    launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+              ),
+            ],
+          ),
           MarkerLayer(markers: [
             Marker(
               point:
@@ -201,6 +217,7 @@ class _MapScreenState extends State<MapScreen> {
               height: 80,
               child: const Icon(
                 Icons.location_on,
+                size: 40,
                 color: Colors.red,
               ),
             ),
