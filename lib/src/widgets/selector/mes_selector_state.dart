@@ -1,28 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/utils/DateUtils.dart';
 
 class MesSelector extends StatefulWidget {
-  const MesSelector({super.key});
+  final void Function(String) onMesSelected;
+
+  MesSelector({Key? key, required this.onMesSelected}) : super(key: key);
 
   @override
-  _MesSelectorState createState() => _MesSelectorState();
+  State<MesSelector> createState() => _MesSelectorState();
 }
 
 class _MesSelectorState extends State<MesSelector> {
-  String selectedValue = 'Janeiro';
-  List<String> options = ['Janeiro', 'Fevereiro', 'Marco', 'Abril'];
+  String? selectedValue;
+
+  List<String> options = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro ',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = getMonthName(DateTime.now().month);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
+    return SizedBox(
+      width: double.infinity,
       height: 50,
       child: DropdownButton<String>(
         value: selectedValue,
-        onChanged: (String? newValue) {
-          setState(() {
-            selectedValue = newValue!;
-          });
-        },
+        onChanged: (value) =>
+            {widget.onMesSelected(value!), updateState(value)},
         items: options.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -31,5 +51,11 @@ class _MesSelectorState extends State<MesSelector> {
         }).toList(),
       ),
     );
+  }
+
+  updateState(String valor) {
+    setState(() {
+      selectedValue = valor;
+    });
   }
 }

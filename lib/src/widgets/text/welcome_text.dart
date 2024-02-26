@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/utils/DateUtils.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({super.key});
@@ -13,8 +14,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String day = now.day.toString();
-    String dayOfWeekName = _getDayOfWeek(now.weekday);
-    String monthName = _getMonthName(now.month);
+    String dayOfWeekName = getDayOfWeek(now.weekday);
+    String monthName = getMonthName(now.month);
 
     return Padding(
       padding: const EdgeInsets.all(32),
@@ -49,57 +50,5 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
         ],
       ),
     );
-  }
-
-  String _getDayOfWeek(int weekday) {
-    switch (weekday) {
-      case 1:
-        return 'Domingo';
-      case 2:
-        return 'Segunda-feira';
-      case 3:
-        return 'Terça-feira';
-      case 4:
-        return 'Quarta-feira';
-      case 5:
-        return 'Quinta-feira';
-      case 6:
-        return 'Sexta-feira';
-      case 7:
-        return 'Sábado';
-      default:
-        return '';
-    }
-  }
-
-  String _getMonthName(int month) {
-    switch (month) {
-      case 1:
-        return 'Janeiro';
-      case 2:
-        return 'Fevereiro';
-      case 3:
-        return 'Março';
-      case 4:
-        return 'Abril';
-      case 5:
-        return 'Maio';
-      case 6:
-        return 'Junho';
-      case 7:
-        return 'Julho';
-      case 8:
-        return 'Agosto';
-      case 9:
-        return 'Setembro';
-      case 10:
-        return 'Outubro';
-      case 11:
-        return 'Novembro';
-      case 12:
-        return 'Dezembro';
-      default:
-        return '';
-    }
   }
 }
