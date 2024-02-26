@@ -23,8 +23,10 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
             itemCount: widget.items.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title:
-                    Text(widget.items[index].dataHoraRegistroPonto.toString()),
+                title: Text(
+                    widget.items[index].dataHoraRegistroPonto.toString() +
+                        " " +
+                        widget.items[index].tipoRegistro),
               );
             },
             separatorBuilder: (BuildContext context, int index) =>

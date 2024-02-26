@@ -1,15 +1,18 @@
 class RegistroPonto {
   final DateTime dataHoraRegistroPonto;
+  final String tipoRegistro;
 
-  const RegistroPonto({
-    required this.dataHoraRegistroPonto,
-  });
+  const RegistroPonto(
+      {required this.dataHoraRegistroPonto, required this.tipoRegistro});
 
   factory RegistroPonto.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {'dataHoraRegistroPonto': String dataHoraRegistroPonto} => RegistroPonto(
-          dataHoraRegistroPonto: DateTime.parse(dataHoraRegistroPonto)),
-      _ => throw const FormatException('Failed serialize registro ponto'),
-    };
+    if (json['dataHoraRegistroPonto'] is String) {
+      return RegistroPonto(
+        dataHoraRegistroPonto: DateTime.parse(json['dataHoraRegistroPonto']),
+        tipoRegistro: json['tipoRegistro'].toString(),
+      );
+    } else {
+      throw FormatException('Failed to parse registro ponto');
+    }
   }
 }

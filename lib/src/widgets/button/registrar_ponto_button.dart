@@ -12,6 +12,8 @@ LocationData currentLocation = LocationData.fromMap({
   'longitude': -46.6333,
 });
 
+TipoRegistro? tipoRegistro = TipoRegistro.ENTRADA;
+
 class RegistrarPontoButton extends StatelessWidget {
   const RegistrarPontoButton({super.key});
 
@@ -45,6 +47,7 @@ class _RegistrarPontoApiCallDialogState
           'dataHoraRegistroPonto': dataHoraRegistroPonto,
           'latitude': currentLocation.latitude.toString(),
           'longitude': currentLocation.longitude.toString(),
+          'tipoRegistro': tipoRegistro.toString().split('.').last
         }),
       );
 
@@ -104,6 +107,7 @@ class _RegistrarPontoApiCallDialogState
                 child: ListBody(
                   children: <Widget>[
                     Text('Deseja confirmar o registro de ponto?'),
+                    RadioEntradaSaida(),
                     MapScreen()
                   ],
                 ),
@@ -127,6 +131,48 @@ class _RegistrarPontoApiCallDialogState
           },
         );
       },
+    );
+  }
+}
+
+enum TipoRegistro {
+  ENTRADA,
+  SAIDA,
+}
+
+class RadioEntradaSaida extends StatefulWidget {
+  const RadioEntradaSaida({super.key});
+
+  @override
+  State<RadioEntradaSaida> createState() => _RadioEntradaSaidaState();
+}
+
+class _RadioEntradaSaidaState extends State<RadioEntradaSaida> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        RadioListTile<TipoRegistro>(
+          title: const Text('Entrada'),
+          value: TipoRegistro.ENTRADA,
+          groupValue: tipoRegistro,
+          onChanged: (TipoRegistro? value) {
+            setState(() {
+              tipoRegistro = value;
+            });
+          },
+        ),
+        RadioListTile<TipoRegistro>(
+          title: const Text('Saída'),
+          value: TipoRegistro.SAIDA,
+          groupValue: tipoRegistro,
+          onChanged: (TipoRegistro? value) {
+            setState(() {
+              tipoRegistro = value;
+            });
+          },
+        ),
+      ],
     );
   }
 }
