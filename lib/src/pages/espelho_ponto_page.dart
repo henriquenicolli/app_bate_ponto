@@ -51,6 +51,7 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
               onMesSelected: (value) {
                 setState(() {
                   _mesSelecionado = value;
+                  registroPontoList = getRegistrosPontoList(_mesSelecionado!);
                 });
               },
             ),
