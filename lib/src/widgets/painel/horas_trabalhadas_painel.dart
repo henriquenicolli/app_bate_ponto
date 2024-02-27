@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 
 class HorasTrabalhadasPainel extends StatelessWidget {
   const HorasTrabalhadasPainel({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.black26,
-      decoration: BoxDecoration(
-        // Adicione a borda usando a propriedade border
-        border: Border.all(
-          color: Colors.grey[300] ?? Colors.black12,
-          width: 5.0,
-        ),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: const SizedBox(
-        width: 400.0,
-        //height: 150.0,
-        child: Column(
-          children: [
-            HorasTrabalhadas(),
-            EntradasSaidasText(text1: 'entradas', text2: 'saidas'),
-            EntradasSaidasText(text1: '09:00', text2: '12:00'),
-            EntradasSaidasText(text1: '13:00', text2: '18:00'),
-          ],
-        ),
+    return const Card(
+      margin: EdgeInsets.all(18.0),
+      child: Column(
+        children: [
+          CustomToggleButtons(),
+          HorasTrabalhadas(),
+          EntradasSaidasText(text1: 'entradas', text2: 'saidas'),
+          EntradasSaidasText(text1: '09:00', text2: '12:00'),
+          EntradasSaidasText(text1: '13:00', text2: '18:00'),
+        ],
       ),
     );
   }
