@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../text/entradas_saidas_text.dart';
 import '../text/horas_extras_text.dart';
 
-class HorasExtrassPainel extends StatelessWidget {
-  const HorasExtrassPainel({super.key});
+class HorasExtrassCard extends StatelessWidget {
+  const HorasExtrassCard({super.key});
 
   @override
   Widget build(BuildContext context) {

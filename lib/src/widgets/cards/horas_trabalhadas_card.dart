@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 
-class HorasTrabalhadasPainel extends StatelessWidget {
-  const HorasTrabalhadasPainel({super.key});
+class HorasTrabalhadasCard extends StatelessWidget {
+  const HorasTrabalhadasCard({super.key});
 
   @override
   Widget build(BuildContext context) {
