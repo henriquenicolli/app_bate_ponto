@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
-import 'package:flutter_app_bate_ponto/src/utils/DateUtils.dart';
+import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
+import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/selector/mes_selector_state.dart';
 import '../widgets/listview/espelho_ponto_list_view.dart';
-import 'package:http/http.dart' as http;
 
 class EspelhoPontoPage extends StatefulWidget {
   const EspelhoPontoPage({super.key});
@@ -17,12 +16,14 @@ class EspelhoPontoPage extends StatefulWidget {
 class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
   late Future<List<RegistroPonto>> registroPontoList;
   String? _mesSelecionado;
+  ApiRequestService apiRequestService = ApiRequestService();
 
   @override
   void initState() {
     super.initState();
     _mesSelecionado = getMonthName(DateTime.now().month);
-    registroPontoList = getRegistrosPontoList(_mesSelecionado!);
+    registroPontoList =
+        apiRequestService.fetchRegistroPontoMesList(_mesSelecionado!);
   }
 
   @override
@@ -51,7 +52,8 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
               onMesSelected: (value) {
                 setState(() {
                   _mesSelecionado = value;
-                  registroPontoList = getRegistrosPontoList(_mesSelecionado!);
+                  registroPontoList = apiRequestService
+                      .fetchRegistroPontoMesList(_mesSelecionado!);
                 });
               },
             ),
@@ -70,17 +72,5 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
             ),
           ],
         ));
-  }
-}
-
-Future<List<RegistroPonto>> getRegistrosPontoList(String mesRegistros) async {
-  final response = await http.get(
-      Uri.parse('http://localhost:10000/v1/bateponto/registros/$mesRegistros'));
-
-  if (response.statusCode == 200) {
-    List<dynamic> jsonResponse = json.decode(response.body);
-    return jsonResponse.map((json) => RegistroPonto.fromJson(json)).toList();
-  } else {
-    throw Exception('Failed to load registros de ponto');
   }
 }

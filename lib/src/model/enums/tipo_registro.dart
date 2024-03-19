@@ -1,0 +1,4 @@
+enum TipoRegistro {
+  ENTRADA,
+  SAIDA,
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/src/model/registro_ponto_atual_snapshot.dart';
+import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
 
 import '../text/entradas_saidas_text.dart';
 import '../text/horas_extras_text.dart';

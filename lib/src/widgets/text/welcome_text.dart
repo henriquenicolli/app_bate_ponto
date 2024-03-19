@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
-import 'package:flutter_app_bate_ponto/src/utils/DateUtils.dart';
+import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
 
 class WelcomeWidget extends StatefulWidget {
   const WelcomeWidget({super.key});

@@ -12,7 +12,7 @@ class RegistroPonto {
         tipoRegistro: json['tipoRegistro'].toString(),
       );
     } else {
-      throw FormatException('Failed to parse registro ponto');
+      throw const FormatException('Failed to parse registro ponto');
     }
   }
 

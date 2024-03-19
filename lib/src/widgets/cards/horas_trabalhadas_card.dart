@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
-import 'package:flutter_app_bate_ponto/src/model/registro_ponto_atual_snapshot.dart';
+import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 
 class HorasTrabalhadasCard extends StatefulWidget {

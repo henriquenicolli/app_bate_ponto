@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+
+import '../../model/enums/tipo_registro.dart';
 
 LocationData currentLocation = LocationData.fromMap({
   'latitude': -23.5505,
@@ -34,24 +35,14 @@ class RegistrarPontoApiCallDialog extends StatefulWidget {
 
 class _RegistrarPontoApiCallDialogState
     extends State<RegistrarPontoApiCallDialog> {
+  ApiRequestService apiRequestService = ApiRequestService();
+
   Future<void> _registraPonto() async {
     try {
-      final String dataHoraRegistroPonto = DateTime.now().toIso8601String();
+      int response = await apiRequestService.postRegistraPonto(
+          currentLocation, tipoRegistro!);
 
-      http.Response response = await http.post(
-        Uri.parse('http://localhost:10000/v1/bateponto/registrar'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'dataHoraRegistroPonto': dataHoraRegistroPonto,
-          'latitude': currentLocation.latitude.toString(),
-          'longitude': currentLocation.longitude.toString(),
-          'tipoRegistro': tipoRegistro.toString().split('.').last
-        }),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 202) {
+      if (response == 200 || response == 202) {
         setState(() {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -133,11 +124,6 @@ class _RegistrarPontoApiCallDialogState
       },
     );
   }
-}
-
-enum TipoRegistro {
-  ENTRADA,
-  SAIDA,
 }
 
 class RadioEntradaSaida extends StatefulWidget {
