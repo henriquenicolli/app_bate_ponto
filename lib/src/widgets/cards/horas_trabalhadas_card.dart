@@ -1,21 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/model/registro_ponto_atual_snapshot.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 
-class HorasTrabalhadasCard extends StatelessWidget {
-  const HorasTrabalhadasCard({super.key});
+class HorasTrabalhadasCard extends StatefulWidget {
+  RegistroPontoAtualSnapshot registroPontoSnapshot;
+
+  HorasTrabalhadasCard({super.key, required this.registroPontoSnapshot});
 
   @override
+  State<HorasTrabalhadasCard> createState() => _HorasTrabalhadasCardState();
+}
+
+class _HorasTrabalhadasCardState extends State<HorasTrabalhadasCard> {
+  @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       margin: EdgeInsets.all(18.0),
       child: Column(
         children: [
           CustomToggleButtons(),
           HorasTrabalhadas(),
-          EntradasSaidasText(text1: 'entradas', text2: 'saidas'),
-          EntradasSaidasText(text1: '09:00', text2: '12:00'),
-          EntradasSaidasText(text1: '13:00', text2: '18:00'),
+          EntradasSaidasText(text1: 'ENTRADAS', text2: 'SAIDAS'),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount:
+                (widget.registroPontoSnapshot.registroPontoHojeList.length / 2)
+                    .ceil(),
+            itemBuilder: (context, index) {
+              int entradaIndex = index * 2;
+              int saidaIndex = entradaIndex + 1;
+
+              if (saidaIndex <
+                  widget.registroPontoSnapshot.registroPontoHojeList.length) {
+                String textoEntrada = widget.registroPontoSnapshot
+                            .registroPontoHojeList[entradaIndex].tipoRegistro ==
+                        "ENTRADA"
+                    ? widget.registroPontoSnapshot
+                        .registroPontoHojeList[entradaIndex].horaFormatada
+                    : "";
+
+                String textoSaida = widget.registroPontoSnapshot
+                            .registroPontoHojeList[saidaIndex].tipoRegistro ==
+                        "SAIDA"
+                    ? widget.registroPontoSnapshot
+                        .registroPontoHojeList[saidaIndex].horaFormatada
+                    : "";
+
+                return EntradasSaidasText(
+                  text1: textoEntrada,
+                  text2: textoSaida,
+                );
+              } else {
+                // Último par de ENTRADA sem SAIDA
+                String textoEntrada = widget.registroPontoSnapshot
+                            .registroPontoHojeList[entradaIndex].tipoRegistro ==
+                        "ENTRADA"
+                    ? widget.registroPontoSnapshot
+                        .registroPontoHojeList[entradaIndex].horaFormatada
+                    : "";
+
+                return EntradasSaidasText(
+                  text1: textoEntrada,
+                  text2: "",
+                );
+              }
+            },
+          ),
         ],
       ),
     );

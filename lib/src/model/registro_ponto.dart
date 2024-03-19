@@ -15,4 +15,8 @@ class RegistroPonto {
       throw FormatException('Failed to parse registro ponto');
     }
   }
+
+  String get horaFormatada {
+    return '${dataHoraRegistroPonto.hour.toString().padLeft(2, '0')}:${dataHoraRegistroPonto.minute.toString().padLeft(2, '0')}';
+  }
 }
