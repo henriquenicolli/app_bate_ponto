@@ -3,7 +3,7 @@ import 'package:flutter_app_bate_ponto/src/widgets/button/registrar_ponto_button
 import 'package:flutter_app_bate_ponto/src/widgets/text/welcome_text.dart';
 
 class InicioPage extends StatelessWidget {
-  const InicioPage({super.key});
+  const InicioPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

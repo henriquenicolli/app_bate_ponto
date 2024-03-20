@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class ParaMimPage extends StatelessWidget {
-  const ParaMimPage({super.key});
+  const ParaMimPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,42 +47,35 @@ class ParaMimPage extends StatelessWidget {
 class MenuButton extends StatelessWidget {
   final String buttonText;
 
-  const MenuButton({super.key, required this.buttonText});
+  const MenuButton({Key? key, required this.buttonText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
-      child: Flex(
-        direction: Axis.vertical,
-        children: [
-          Expanded(
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Ação a ser executada ao pressionar o botão
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppLayoutDefaults.secondaryColor,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.center,
-                  child: Text(
-                    buttonText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () {
+            // Ação a ser executada ao pressionar o botão
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppLayoutDefaults.secondaryColor,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
-        ],
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.center,
+            child: Text(
+              buttonText,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+        ),
       ),
     );
   }

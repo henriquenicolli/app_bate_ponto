@@ -3,7 +3,7 @@ import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dar
 import '../../pages/espelho_ponto_page.dart';
 
 class EspelhoPontoButton extends StatelessWidget {
-  const EspelhoPontoButton({super.key});
+  const EspelhoPontoButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,6 @@ class EspelhoPontoButton extends StatelessWidget {
         height: 70,
         child: ElevatedButton(
           onPressed: () {
-            // Ação a ser executada ao pressionar o botão
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const EspelhoPontoPage()),

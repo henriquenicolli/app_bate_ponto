@@ -7,70 +7,67 @@ import 'package:flutter_app_bate_ponto/src/widgets/selector/mes_selector_state.d
 import '../widgets/listview/espelho_ponto_list_view.dart';
 
 class EspelhoPontoPage extends StatefulWidget {
-  const EspelhoPontoPage({super.key});
+  const EspelhoPontoPage({Key? key}) : super(key: key);
 
   @override
   State<EspelhoPontoPage> createState() => _EspelhoPontoPageState();
 }
 
 class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
-  late Future<List<RegistroPonto>> registroPontoList;
-  String? _mesSelecionado;
-  ApiRequestService apiRequestService = ApiRequestService();
+  late Future<List<RegistroPonto>> _registroPontoList;
+  late String _mesSelecionado;
+  final ApiRequestService _apiRequestService = ApiRequestService();
 
   @override
   void initState() {
     super.initState();
     _mesSelecionado = getMonthName(DateTime.now().month);
-    registroPontoList =
-        apiRequestService.fetchRegistroPontoMesList(_mesSelecionado!);
+    _fetchRegistroPontoList();
+  }
+
+  void _fetchRegistroPontoList() {
+    _registroPontoList =
+        _apiRequestService.fetchRegistroPontoMesList(_mesSelecionado);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: const Row(children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.timelapse,
-              color: AppLayoutDefaults.secondaryColor,
-            ),
+      appBar: AppBar(
+        title: const Text(
+          'Espelho de ponto',
+          style: TextStyle(
+            fontFamily: AppLayoutDefaults.fontFamily,
+            fontWeight: FontWeight.bold,
+            color: AppLayoutDefaults.secondaryColor,
           ),
-          Text(
-            'Espelho de ponto',
-            style: TextStyle(
-                fontFamily: AppLayoutDefaults.fontFamily,
-                fontWeight: FontWeight.bold,
-                color: AppLayoutDefaults.secondaryColor),
+        ),
+      ),
+      body: Column(
+        children: [
+          MesSelector(
+            onMesSelected: (value) {
+              setState(() {
+                _mesSelecionado = value;
+                _fetchRegistroPontoList();
+              });
+            },
           ),
-        ])),
-        body: Column(
-          children: [
-            MesSelector(
-              onMesSelected: (value) {
-                setState(() {
-                  _mesSelecionado = value;
-                  registroPontoList = apiRequestService
-                      .fetchRegistroPontoMesList(_mesSelecionado!);
-                });
+          Expanded(
+            child: FutureBuilder<List<RegistroPonto>>(
+              future: _registroPontoList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return EspelhoPontoListView(items: snapshot.data!);
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
               },
             ),
-            Expanded(
-              child: FutureBuilder<List<RegistroPonto>>(
-                future: registroPontoList,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return EspelhoPontoListView(items: snapshot.data!);
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

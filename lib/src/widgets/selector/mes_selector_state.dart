@@ -4,14 +4,14 @@ import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
 class MesSelector extends StatefulWidget {
   final void Function(String) onMesSelected;
 
-  MesSelector({Key? key, required this.onMesSelected}) : super(key: key);
+  const MesSelector({Key? key, required this.onMesSelected}) : super(key: key);
 
   @override
   State<MesSelector> createState() => _MesSelectorState();
 }
 
 class _MesSelectorState extends State<MesSelector> {
-  String? selectedValue;
+  late String selectedValue;
 
   List<String> options = [
     'Janeiro',
@@ -22,7 +22,7 @@ class _MesSelectorState extends State<MesSelector> {
     'Junho',
     'Julho',
     'Agosto',
-    'Setembro ',
+    'Setembro',
     'Outubro',
     'Novembro',
     'Dezembro'
@@ -36,26 +36,32 @@ class _MesSelectorState extends State<MesSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 50,
-      child: DropdownButton<String>(
-        value: selectedValue,
-        onChanged: (value) =>
-            {widget.onMesSelected(value!), updateState(value)},
-        items: options.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          isExpanded: true,
+          value: selectedValue,
+          onChanged: (value) {
+            if (value != null) {
+              setState(() {
+                selectedValue = value;
+              });
+              widget.onMesSelected(value);
+            }
+          },
+          items: options.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
       ),
     );
-  }
-
-  updateState(String valor) {
-    setState(() {
-      selectedValue = valor;
-    });
   }
 }

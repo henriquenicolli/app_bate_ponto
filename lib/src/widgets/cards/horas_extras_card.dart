@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
 
-import '../text/entradas_saidas_text.dart';
-import '../text/horas_extras_text.dart';
-
 class HorasExtrasCard extends StatefulWidget {
-  RegistroPontoAtualSnapshot registroPontoSnapshot;
+  final RegistroPontoAtualSnapshot registroPontoSnapshot;
 
-  HorasExtrasCard({super.key, required this.registroPontoSnapshot});
+  const HorasExtrasCard({
+    Key? key,
+    required this.registroPontoSnapshot,
+  }) : super(key: key);
 
   @override
   State<HorasExtrasCard> createState() => _HorasExtrasCardState();
@@ -16,15 +16,35 @@ class HorasExtrasCard extends StatefulWidget {
 class _HorasExtrasCardState extends State<HorasExtrasCard> {
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      margin: EdgeInsets.all(18.0),
-      child: Column(
-        children: [
-          HorasExtrasText(),
-          EntradasSaidasText(
-            text1: '02:00 horas',
-          ),
-        ],
+    return Card(
+      margin: const EdgeInsets.all(18.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Horas Extras",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              "Horas extras realizadas:",
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Text(
+              "${widget.registroPontoSnapshot.horasCompensaveisMes}",
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

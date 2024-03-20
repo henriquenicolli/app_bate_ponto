@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 class CustomToggleButtons extends StatelessWidget {
-  const CustomToggleButtons({super.key});
+  const CustomToggleButtons({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class CustomToggleButtons extends StatelessWidget {
 }
 
 class _ToggleButtons extends StatefulWidget {
-  const _ToggleButtons({super.key, required this.title});
+  const _ToggleButtons({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -57,10 +57,10 @@ class _ToggleButtonsState extends State<_ToggleButtons> {
 const List<Widget> texts = <Widget>[
   Padding(
     padding: EdgeInsets.all(10.0),
-    child: Text('ponto de ontem'),
+    child: Text('Ponto de ontem'),
   ),
   Padding(
     padding: EdgeInsets.all(10.0),
-    child: Text('ponte de hoje'),
+    child: Text('Ponto de hoje'),
   ),
 ];

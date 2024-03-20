@@ -16,118 +16,108 @@ LocationData currentLocation = LocationData.fromMap({
 TipoRegistro? tipoRegistro = TipoRegistro.ENTRADA;
 
 class RegistrarPontoButton extends StatelessWidget {
-  const RegistrarPontoButton({super.key});
+  const RegistrarPontoButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-        width: 300, height: 70, child: RegistrarPontoApiCallDialog());
+    return SizedBox(
+      width: 300,
+      height: 70,
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return RegistrarPontoApiCallDialog();
+            },
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppLayoutDefaults.secondaryColor,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: const Text(
+          'Registrar ponto',
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
+    );
   }
 }
 
-class RegistrarPontoApiCallDialog extends StatefulWidget {
-  const RegistrarPontoApiCallDialog({super.key});
+class RegistrarPontoApiCallDialog extends StatelessWidget {
+  const RegistrarPontoApiCallDialog({Key? key}) : super(key: key);
 
   @override
-  _RegistrarPontoApiCallDialogState createState() =>
-      _RegistrarPontoApiCallDialogState();
-}
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Registrar ponto'),
+      content: const SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text('Deseja confirmar o registro de ponto?'),
+            RadioEntradaSaida(),
+            MapScreen(),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _registraPonto(context);
+          },
+          child: const Text('Registrar'),
+        ),
+      ],
+    );
+  }
 
-class _RegistrarPontoApiCallDialogState
-    extends State<RegistrarPontoApiCallDialog> {
-  ApiRequestService apiRequestService = ApiRequestService();
-
-  Future<void> _registraPonto() async {
+  void _registraPonto(BuildContext context) async {
     try {
-      int response = await apiRequestService.postRegistraPonto(
-          currentLocation, tipoRegistro!);
+      int response = await ApiRequestService().postRegistraPonto(
+        currentLocation,
+        tipoRegistro!,
+      );
 
       if (response == 200 || response == 202) {
-        setState(() {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Ponto registrado com sucesso'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Ponto registrado com sucesso'),
+            backgroundColor: Colors.green,
+          ),
+        );
       } else {
-        setState(() {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Erro durante registro de ponto'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        });
-      }
-    } catch (exc) {
-      setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Erro durante registro de ponto'),
             backgroundColor: Colors.red,
           ),
         );
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppLayoutDefaults.secondaryColor,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      }
+    } catch (exc) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro durante registro de ponto'),
+          backgroundColor: Colors.red,
         ),
-      ),
-      child: const Text(
-        'Registrar ponto',
-        style: TextStyle(fontSize: 20),
-      ),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Registrar ponto'),
-              content: const SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text('Deseja confirmar o registro de ponto?'),
-                    RadioEntradaSaida(),
-                    MapScreen()
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pop(),
-                  },
-                  child: const Text('Cancelar'),
-                ),
-                TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pop(),
-                    _registraPonto(),
-                  },
-                  child: const Text('Registrar'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
+      );
+    }
   }
 }
 
 class RadioEntradaSaida extends StatefulWidget {
-  const RadioEntradaSaida({super.key});
+  const RadioEntradaSaida({Key? key}) : super(key: key);
 
   @override
   State<RadioEntradaSaida> createState() => _RadioEntradaSaidaState();
@@ -237,7 +227,7 @@ class _MapScreenState extends State<MapScreen> {
               TextSourceAttribution(
                 'OpenStreetMap contributors',
                 onTap: () =>
-                    launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                    print(Uri.parse('https://openstreetmap.org/copyright')),
               ),
             ],
           ),
@@ -258,6 +248,4 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
-
-  launchUrl(Uri parse) {}
 }

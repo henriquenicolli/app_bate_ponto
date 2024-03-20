@@ -8,7 +8,7 @@ import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_trabalhadas_card.
 import 'package:flutter_app_bate_ponto/src/widgets/cards/resumo_mes_card.dart';
 
 class PontoPage extends StatefulWidget {
-  const PontoPage({super.key});
+  const PontoPage({Key? key}) : super(key: key);
 
   @override
   State<PontoPage> createState() => _PontoPageState();
@@ -16,13 +16,17 @@ class PontoPage extends StatefulWidget {
 
 class _PontoPageState extends State<PontoPage> {
   late Future<RegistroPontoAtualSnapshot> _registroPontoSnapshot;
-  ApiRequestService apiRequestService = ApiRequestService();
+  final ApiRequestService _apiRequestService = ApiRequestService();
 
   @override
   void initState() {
     super.initState();
+    _fetchRegistroPontoAtualSnapshot();
+  }
+
+  void _fetchRegistroPontoAtualSnapshot() {
     _registroPontoSnapshot =
-        apiRequestService.fetchRegistroPontoAtualSnapshot();
+        _apiRequestService.fetchRegistroPontoAtualSnapshot();
   }
 
   @override
@@ -40,9 +44,14 @@ class _PontoPageState extends State<PontoPage> {
             children: [
               const Spacer(flex: 1),
               HorasTrabalhadasCard(
-                  registroPontoSnapshot: registroPontoSnapshot),
-              HorasExtrasCard(registroPontoSnapshot: registroPontoSnapshot),
-              ResumoMesCard(registroPontoSnapshot: registroPontoSnapshot),
+                registroPontoSnapshot: registroPontoSnapshot,
+              ),
+              HorasExtrasCard(
+                registroPontoSnapshot: registroPontoSnapshot,
+              ),
+              ResumoMesCard(
+                registroPontoSnapshot: registroPontoSnapshot,
+              ),
               const Spacer(flex: 9),
               const EspelhoPontoButton(),
             ],
