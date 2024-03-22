@@ -38,7 +38,7 @@ class _HorasExtrasCardState extends State<HorasExtrasCard> {
               ),
             ),
             Text(
-              "${widget.registroPontoSnapshot.horasCompensaveisMes}",
+              "${widget.registroPontoSnapshot.formattedCompensaveisMes}",
               style: TextStyle(
                 fontSize: 16,
               ),

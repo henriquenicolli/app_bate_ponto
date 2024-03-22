@@ -17,6 +17,22 @@ class RegistroPontoAtualSnapshot {
       required this.horasExtrasMes,
       required this.horasCompensaveisMes});
 
+  String get formattedHorasTrabalhadasHoje {
+    return '${horasTrabalhadasHoje.hour.toString().padLeft(2, '0')}:${horasTrabalhadasHoje.minute.toString().padLeft(2, '0')}';
+  }
+
+  String get formattedHorasTrabalhadasOntyem {
+    return '${horasTrabalhadasOntem.hour.toString().padLeft(2, '0')}:${horasTrabalhadasOntem.minute.toString().padLeft(2, '0')}';
+  }
+
+  String get formattedhorasExtrasMes {
+    return '${horasExtrasMes.hour.toString().padLeft(2, '0')}:${horasExtrasMes.minute.toString().padLeft(2, '0')}';
+  }
+
+  String get formattedCompensaveisMes {
+    return '${horasCompensaveisMes.hour.toString().padLeft(2, '0')}:${horasCompensaveisMes.minute.toString().padLeft(2, '0')}';
+  }
+
   factory RegistroPontoAtualSnapshot.fromJson(Map<String, dynamic> json) {
     TimeOfDay parseTimeOfDay(String timeString) {
       final parts = timeString.split(':');

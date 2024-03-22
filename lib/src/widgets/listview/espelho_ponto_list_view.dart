@@ -12,10 +12,11 @@ class EspelhoPontoListView extends StatelessWidget {
 
     for (var item in items) {
       DateTime date = item.dataHoraRegistroPonto;
-      if (groupedItems.containsKey(date)) {
-        groupedItems[date]!.add(item);
+      DateTime dateOnly = DateTime(date.year, date.month, date.day);
+      if (groupedItems.containsKey(dateOnly)) {
+        groupedItems[dateOnly]!.add(item);
       } else {
-        groupedItems[date] = [item];
+        groupedItems[dateOnly] = [item];
       }
     }
 
@@ -32,30 +33,43 @@ class EspelhoPontoListView extends StatelessWidget {
         List<RegistroPonto> itemsByDate = groupedItems[index];
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   DateFormat('dd/MM/yyyy')
                       .format(itemsByDate.first.dataHoraRegistroPonto),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
+                    color: Colors.blue,
                   ),
                 ),
-              ),
-              Column(
-                children: itemsByDate.map((item) {
-                  return ListTile(
-                    title: Text(
-                      '${item.dataHoraRegistroPonto} ${item.tipoRegistro}',
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
+                SizedBox(height: 10.0),
+                Column(
+                  children: itemsByDate.map((item) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            '${item.horaFormatada} ${item.tipoRegistro}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
           ),
         );
       },

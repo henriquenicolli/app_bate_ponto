@@ -4,7 +4,7 @@ import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/button/espelho_ponto_button.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_extras_card.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_trabalhadas_card.dart';
+import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_trabalhadas_snapshot_card.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/resumo_mes_card.dart';
 
 class PontoPage extends StatefulWidget {
@@ -37,7 +37,29 @@ class _PontoPageState extends State<PontoPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Erro: ${snapshot.error}'));
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 50.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Erro: falha ao carregar informações de ponto.',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
         } else {
           final registroPontoSnapshot = snapshot.data!;
           return Column(

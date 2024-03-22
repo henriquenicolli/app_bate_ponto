@@ -36,7 +36,7 @@ class ResumoMesCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${registroPontoSnapshot.horasTrabalhadasHoje}",
+                  "${registroPontoSnapshot.formattedHorasTrabalhadasHoje}",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -54,7 +54,7 @@ class ResumoMesCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${registroPontoSnapshot.horasCompensaveisMes}",
+                  "${registroPontoSnapshot.formattedCompensaveisMes}",
                   style: TextStyle(
                     fontSize: 16,
                   ),

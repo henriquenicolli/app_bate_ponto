@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 
 class HorasTrabalhadasCard extends StatelessWidget {
   final RegistroPontoAtualSnapshot registroPontoSnapshot;
@@ -18,44 +16,32 @@ class HorasTrabalhadasCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Horas Trabalhadas",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             SizedBox(height: 8),
-            HorasTrabalhadas(),
+            HorasTrabalhadas(registroPontoSnapshot: registroPontoSnapshot),
             SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(flex: 5),
-                    Text(
-                      'ENTRADAS',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'ENTRADAS',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
                     ),
-                    Spacer(flex: 5),
-                    Text(
-                      'SAÍDAS',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
+                  ),
+                  SizedBox(width: 20),
+                  Text(
+                    'SAÍDAS',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
                     ),
-                    Spacer(flex: 5),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             ListView.builder(
@@ -98,16 +84,19 @@ class HorasTrabalhadasCard extends StatelessWidget {
 }
 
 class HorasTrabalhadas extends StatelessWidget {
-  const HorasTrabalhadas({Key? key}) : super(key: key);
+  final RegistroPontoAtualSnapshot registroPontoSnapshot;
+
+  const HorasTrabalhadas({Key? key, required this.registroPontoSnapshot})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        '08:00 horas trabalhadas',
+        '${registroPontoSnapshot.formattedHorasTrabalhadasHoje} horas trabalhadas',
         style: TextStyle(
-          color: Colors.blue, // Exemplo de cor, substitua pela cor desejada
+          color: Colors.blue,
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
