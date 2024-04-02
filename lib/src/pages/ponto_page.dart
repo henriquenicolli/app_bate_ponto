@@ -71,9 +71,9 @@ class _PontoPageState extends State<PontoPage> {
               HorasExtrasCard(
                 registroPontoSnapshot: registroPontoSnapshot,
               ),
-              ResumoMesCard(
-                registroPontoSnapshot: registroPontoSnapshot,
-              ),
+              // ResumoMesCard(
+              //   registroPontoSnapshot: registroPontoSnapshot,
+              // ),
               const Spacer(flex: 9),
               const EspelhoPontoButton(),
             ],

@@ -7,7 +7,7 @@ class RegistroPontoAtualSnapshot {
   final TimeOfDay horasTrabalhadasHoje;
   final TimeOfDay horasTrabalhadasOntem;
   final TimeOfDay horasExtrasMes;
-  final TimeOfDay horasCompensaveisMes;
+  final TimeOfDay horasExtrasHoje;
 
   const RegistroPontoAtualSnapshot(
       {required this.registroPontoHojeList,
@@ -15,7 +15,7 @@ class RegistroPontoAtualSnapshot {
       required this.horasTrabalhadasHoje,
       required this.horasTrabalhadasOntem,
       required this.horasExtrasMes,
-      required this.horasCompensaveisMes});
+      required this.horasExtrasHoje});
 
   String get formattedHorasTrabalhadasHoje {
     return '${horasTrabalhadasHoje.hour.toString().padLeft(2, '0')}:${horasTrabalhadasHoje.minute.toString().padLeft(2, '0')}';
@@ -30,7 +30,7 @@ class RegistroPontoAtualSnapshot {
   }
 
   String get formattedCompensaveisMes {
-    return '${horasCompensaveisMes.hour.toString().padLeft(2, '0')}:${horasCompensaveisMes.minute.toString().padLeft(2, '0')}';
+    return '${horasExtrasHoje.hour.toString().padLeft(2, '0')}:${horasExtrasHoje.minute.toString().padLeft(2, '0')}';
   }
 
   factory RegistroPontoAtualSnapshot.fromJson(Map<String, dynamic> json) {
@@ -51,7 +51,7 @@ class RegistroPontoAtualSnapshot {
       horasTrabalhadasHoje: parseTimeOfDay(json['horasTrabalhadasHoje']),
       horasTrabalhadasOntem: parseTimeOfDay(json['horasTrabalhadasOntem']),
       horasExtrasMes: parseTimeOfDay(json['horasExtrasMes']),
-      horasCompensaveisMes: parseTimeOfDay(json['horasCompensaveisMes']),
+      horasExtrasHoje: parseTimeOfDay(json['horasExtrasHoje']),
     );
   }
 }

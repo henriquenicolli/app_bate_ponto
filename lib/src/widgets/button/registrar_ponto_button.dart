@@ -94,14 +94,14 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Ponto registrado com sucesso'),
-            backgroundColor: Colors.green,
+            backgroundColor: AppLayoutDefaults.sucessColor,
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Erro durante registro de ponto'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppLayoutDefaults.errorColor,
           ),
         );
       }
@@ -109,7 +109,7 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Erro durante registro de ponto'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppLayoutDefaults.errorColor,
         ),
       );
     }

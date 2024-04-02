@@ -31,18 +31,23 @@ class _HorasExtrasCardState extends State<HorasExtrasCard> {
               ),
             ),
             SizedBox(height: 8),
-            Text(
-              "Horas extras realizadas:",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            Text(
-              "${widget.registroPontoSnapshot.formattedCompensaveisMes}",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Horas extras realizadas:",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  "${widget.registroPontoSnapshot.formattedCompensaveisMes}",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
