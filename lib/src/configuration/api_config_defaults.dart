@@ -1,6 +1,7 @@
 class ApiConfig {
   static const String _basePath = 'https://api.example.com/';
   static const String _testPath = 'http://localhost:10000/';
+  static bool isTestMode = true;
 
   static const String _registrarPontoPathPOST = 'v1/bateponto/registrar';
   static const String _registroPontoSnapshotGET =
@@ -26,6 +27,4 @@ class ApiConfig {
   static String get getRegistroPontoMes {
     return _apiUrl + _registrosPontoMesGET;
   }
-
-  static bool isTestMode = true;
 }

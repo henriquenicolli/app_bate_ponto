@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
@@ -43,7 +44,7 @@ class _PontoPageState extends State<PontoPage> {
               children: <Widget>[
                 Icon(
                   Icons.error_outline,
-                  color: Colors.red,
+                  color: AppLayoutDefaults.errorColor,
                   size: 50.0,
                 ),
                 Padding(
@@ -51,7 +52,7 @@ class _PontoPageState extends State<PontoPage> {
                   child: Text(
                     'Erro: falha ao carregar informações de ponto.',
                     style: TextStyle(
-                      color: Colors.red,
+                      color: AppLayoutDefaults.errorColor,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),

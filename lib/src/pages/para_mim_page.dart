@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/pages/atestados_licencas_page.dart';
+import 'package:flutter_app_bate_ponto/src/pages/ferias_page.dart';
+import 'package:flutter_app_bate_ponto/src/pages/remuneracao_page.dart';
+
+const String REMUNERACAO_PAGE = 'remuneração';
+const String FERIAS_PAGE = 'férias';
+const String ATESTADOS_LICENCAS_PAGE = 'atestados e licenças';
 
 class ParaMimPage extends StatelessWidget {
   const ParaMimPage({Key? key}) : super(key: key);
+
+  String getMenuText(int index) {
+    switch (index) {
+      case 0:
+        return REMUNERACAO_PAGE;
+      case 1:
+        return FERIAS_PAGE;
+      //case 2:
+      //  return 'benefícios';
+      case 2:
+        return ATESTADOS_LICENCAS_PAGE;
+      //case 4:
+      //  return 'acompanhe';
+      default:
+        return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +46,8 @@ class ParaMimPage extends StatelessWidget {
           child: MenuButton(buttonText: getMenuText(index)),
         );
       },
-      itemCount: 5, // Número total de itens
+      itemCount: 3, // Número total de itens
     );
-  }
-
-  String getMenuText(int index) {
-    switch (index) {
-      case 0:
-        return 'remuneração';
-      case 1:
-        return 'férias';
-      case 2:
-        return 'benefícios';
-      case 3:
-        return 'atestados e licenças';
-      case 4:
-        return 'acompanhe';
-      default:
-        return '';
-    }
   }
 }
 
@@ -57,7 +64,29 @@ class MenuButton extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-            // Ação a ser executada ao pressionar o botão
+            switch (buttonText) {
+              case REMUNERACAO_PAGE:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RemuneracaoPage()),
+                );
+                break;
+              case FERIAS_PAGE:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FeriasPage()),
+                );
+                break;
+              case ATESTADOS_LICENCAS_PAGE:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AtestadosLicencasPage()),
+                );
+                break;
+              default:
+                break;
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppLayoutDefaults.secondaryColor,
@@ -72,7 +101,7 @@ class MenuButton extends StatelessWidget {
             child: Text(
               buttonText,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
           ),
         ),

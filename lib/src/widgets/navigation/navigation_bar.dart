@@ -12,9 +12,6 @@ class CustomNavigationBar extends StatefulWidget {
   State<CustomNavigationBar> createState() => _AdaptativeNavigationBarState();
 }
 
-/*
-* ADAPTATIVE NAVIGATION BAR
-**/
 class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
   int currentPageIndex = 0;
 
@@ -36,14 +33,13 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Informações'),
-          content: const Text(
-              'Este aplicativo e um desenvolvimento de Henrique Biondo Nicolli Soares \nWhats (43) 99630-9395'),
+          content: const Text('building...'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o Dialog
               },
-              child: Text('Fechar'),
+              child: const Text('Fechar'),
             ),
           ],
         );
