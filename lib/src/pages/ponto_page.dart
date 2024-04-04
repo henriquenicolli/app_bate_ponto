@@ -4,6 +4,7 @@ import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dar
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto_snapshot.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/button/espelho_ponto_button.dart';
+import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_extras_card.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_trabalhadas_snapshot_card.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/resumo_mes_card.dart';
@@ -66,6 +67,7 @@ class _PontoPageState extends State<PontoPage> {
           return Column(
             children: [
               const Spacer(flex: 1),
+              CustomToggleButtons(),
               HorasTrabalhadasCard(
                 registroPontoSnapshot: registroPontoSnapshot,
               ),
