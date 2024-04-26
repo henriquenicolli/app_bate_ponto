@@ -11,7 +11,7 @@ class EspelhoPontoListView extends StatelessWidget {
     Map<DateTime, List<RegistroPonto>> groupedItems = {};
 
     for (var item in items) {
-      DateTime date = item.dataHoraRegistroPonto;
+      DateTime date = item.dataMarcacaoPonto;
       DateTime dateOnly = DateTime(date.year, date.month, date.day);
       if (groupedItems.containsKey(dateOnly)) {
         groupedItems[dateOnly]!.add(item);
@@ -44,7 +44,7 @@ class EspelhoPontoListView extends StatelessWidget {
               children: [
                 Text(
                   DateFormat('dd/MM/yyyy')
-                      .format(itemsByDate.first.dataHoraRegistroPonto),
+                      .format(itemsByDate.first.dataMarcacaoPonto),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -58,7 +58,7 @@ class EspelhoPontoListView extends StatelessWidget {
                       children: [
                         ListTile(
                           title: Text(
-                            '${item.horaFormatada} ${item.tipoRegistro}',
+                            '${item.horaFormatada} ${item.tipoMarcacao}',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

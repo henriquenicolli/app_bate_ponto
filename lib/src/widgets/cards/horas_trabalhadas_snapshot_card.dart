@@ -54,7 +54,7 @@ class HorasTrabalhadasCard extends StatelessWidget {
                 int saidaIndex = entradaIndex + 1;
 
                 String textoEntrada = registroPontoSnapshot
-                            .registroPontoHojeList[entradaIndex].tipoRegistro ==
+                            .registroPontoHojeList[entradaIndex].tipoMarcacao ==
                         "ENTRADA"
                     ? registroPontoSnapshot
                         .registroPontoHojeList[entradaIndex].horaFormatada
@@ -64,7 +64,7 @@ class HorasTrabalhadasCard extends StatelessWidget {
                             registroPontoSnapshot
                                 .registroPontoHojeList.length &&
                         registroPontoSnapshot.registroPontoHojeList[saidaIndex]
-                                .tipoRegistro ==
+                                .tipoMarcacao ==
                             "SAIDA"
                     ? registroPontoSnapshot
                         .registroPontoHojeList[saidaIndex].horaFormatada

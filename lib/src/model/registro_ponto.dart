@@ -1,15 +1,26 @@
+import 'package:flutter/material.dart';
+
 class RegistroPonto {
-  final DateTime dataHoraRegistroPonto;
-  final String tipoRegistro;
+  final DateTime dataMarcacaoPonto;
+  final TimeOfDay horaMarcacaoPonto;
+  final String tipoMarcacao;
 
   const RegistroPonto(
-      {required this.dataHoraRegistroPonto, required this.tipoRegistro});
+      {required this.dataMarcacaoPonto,
+      required this.horaMarcacaoPonto,
+      required this.tipoMarcacao});
 
   factory RegistroPonto.fromJson(Map<String, dynamic> json) {
-    if (json['dataHoraRegistroPonto'] is String) {
+    TimeOfDay parseTimeOfDay(String timeString) {
+      final parts = timeString.split(':');
+      return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
+    }
+
+    if (json['dataMarcacaoPonto'] is String) {
       return RegistroPonto(
-        dataHoraRegistroPonto: DateTime.parse(json['dataHoraRegistroPonto']),
-        tipoRegistro: json['tipoRegistro'].toString(),
+        dataMarcacaoPonto: DateTime.parse(json['dataMarcacaoPonto']),
+        horaMarcacaoPonto: parseTimeOfDay(json['horaMarcacaoPonto']),
+        tipoMarcacao: json['tipoMarcacao'].toString(),
       );
     } else {
       throw const FormatException('Failed to parse registro ponto');
@@ -17,6 +28,6 @@ class RegistroPonto {
   }
 
   String get horaFormatada {
-    return '${dataHoraRegistroPonto.hour.toString().padLeft(2, '0')}:${dataHoraRegistroPonto.minute.toString().padLeft(2, '0')}';
+    return '${horaMarcacaoPonto.hour.toString().padLeft(2, '0')}:${horaMarcacaoPonto.minute.toString().padLeft(2, '0')}';
   }
 }

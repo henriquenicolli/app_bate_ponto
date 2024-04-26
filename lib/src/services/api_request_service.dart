@@ -33,19 +33,38 @@ class ApiRequestService {
   }
 
   Future<int> postRegistraPonto(
-      LocationData currentLocation, TipoRegistro tipoRegistro) async {
-    final String dataHoraRegistroPonto = DateTime.now().toIso8601String();
-
+      LocationData currentLocation,
+      TipoRegistro tipoRegistro,
+      String fusoHorarioMarcacao,
+      bool marcacaoOnline,
+      String cpfFuncionario,
+      String motivoMarcacao,
+      int coletorRegistro,
+      String fonteMarcacao,
+      String idEmpregado) async {
+    final DateTime now = DateTime.now();
+    final String dataMarcacaoPonto =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    final String horaMarcacaoPonto =
+        '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
     http.Response response = await http.post(
       Uri.parse(ApiConfig.postRegistrarPontoPath),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'dataHoraRegistroPonto': dataHoraRegistroPonto,
-        'latitude': currentLocation.latitude.toString(),
-        'longitude': currentLocation.longitude.toString(),
-        'tipoRegistro': tipoRegistro.toString().split('.').last
+      body: jsonEncode(<String, dynamic>{
+        'dataMarcacaoPonto': dataMarcacaoPonto,
+        'horaMarcacaoPonto': horaMarcacaoPonto,
+        'fusoHorarioMarcacao': fusoHorarioMarcacao,
+        'marcacaoOnline': marcacaoOnline,
+        'cpfFuncionario': cpfFuncionario,
+        'latitude': currentLocation.latitude,
+        'longitude': currentLocation.longitude,
+        'motivoMarcacao': motivoMarcacao,
+        'coletorRegistro': coletorRegistro,
+        'fonteMarcacao': fonteMarcacao,
+        'idEmpregado': idEmpregado,
+        'tipoMarcacao': tipoRegistro.toString().split('.').last
       }),
     );
 

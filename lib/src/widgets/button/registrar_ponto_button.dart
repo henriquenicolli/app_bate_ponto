@@ -13,7 +13,7 @@ LocationData currentLocation = LocationData.fromMap({
   'longitude': -46.6333,
 });
 
-TipoRegistro? tipoRegistro = TipoRegistro.ENTRADA;
+TipoRegistro? tipoRegistro = TipoRegistro.E;
 
 class RegistrarPontoButton extends StatelessWidget {
   const RegistrarPontoButton({Key? key}) : super(key: key);
@@ -88,6 +88,13 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
       int response = await ApiRequestService().postRegistraPonto(
         currentLocation,
         tipoRegistro!,
+        "GMT-3",
+        true,
+        "123.456.789-00",
+        "Inicio de expediente",
+        1,
+        "O",
+        "576475e7-e365-4d71-be93-f8182866e102",
       );
 
       if (response == 200 || response == 202) {
@@ -130,7 +137,7 @@ class _RadioEntradaSaidaState extends State<RadioEntradaSaida> {
       children: <Widget>[
         RadioListTile<TipoRegistro>(
           title: const Text('Entrada'),
-          value: TipoRegistro.ENTRADA,
+          value: TipoRegistro.E,
           groupValue: tipoRegistro,
           onChanged: (TipoRegistro? value) {
             setState(() {
@@ -140,7 +147,7 @@ class _RadioEntradaSaidaState extends State<RadioEntradaSaida> {
         ),
         RadioListTile<TipoRegistro>(
           title: const Text('Saída'),
-          value: TipoRegistro.SAIDA,
+          value: TipoRegistro.S,
           groupValue: tipoRegistro,
           onChanged: (TipoRegistro? value) {
             setState(() {

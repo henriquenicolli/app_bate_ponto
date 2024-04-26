@@ -7,7 +7,6 @@ import 'package:flutter_app_bate_ponto/src/widgets/button/espelho_ponto_button.d
 import 'package:flutter_app_bate_ponto/src/widgets/button/toggle_button.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_extras_card.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/cards/horas_trabalhadas_snapshot_card.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/cards/resumo_mes_card.dart';
 
 class PontoPage extends StatefulWidget {
   const PontoPage({Key? key}) : super(key: key);

@@ -3,10 +3,10 @@ class ApiConfig {
   static const String _testPath = 'http://localhost:10000/';
   static bool isTestMode = true;
 
-  static const String _registrarPontoPathPOST = 'v1/bateponto/registrar';
+  static const String _registrarPontoPathPOST = 'v1/rep/registroPonto/salvar';
   static const String _registroPontoSnapshotGET =
-      'v1/bateponto/registros/atual/snapshot';
-  static const String _registrosPontoMesGET = 'v1/bateponto/registros/';
+      'v1/rep/registroPonto/snapshot';
+  static const String _registrosPontoMesGET = 'v1/rep/registroPonto/';
 
   static String get _apiUrl {
     if (isTestMode) {

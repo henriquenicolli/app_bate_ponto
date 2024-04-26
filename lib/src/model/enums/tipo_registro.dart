@@ -1,4 +1,4 @@
 enum TipoRegistro {
-  ENTRADA,
-  SAIDA,
+  E,
+  S,
 }
