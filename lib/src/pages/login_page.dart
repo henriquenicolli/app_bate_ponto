@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 20),
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Cnpj / cpf / email',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
-                    labelText: 'Password',
+                    labelText: 'Senha',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (context) => const CustomNavigationBar()),
                       );
                     },
-                    child: Text('Login'),
+                    child: Text('Entrar'),
                   ),
                 ),
               ],

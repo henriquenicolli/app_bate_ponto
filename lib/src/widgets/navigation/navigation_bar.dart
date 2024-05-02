@@ -20,11 +20,13 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
       return const InicioPage();
     }
 
-    if (index == 1) {
-      return const PontoPage();
-    }
+    return const PontoPage();
 
-    return const ParaMimPage();
+    //if (index == 1) {
+    //  return const PontoPage();
+    //}
+
+    //return const ParaMimPage();
   }
 
   _mostrarInformacoes() {
@@ -84,8 +86,8 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
         destinations: const [
           AdaptiveScaffoldDestination(title: 'inicio', icon: Icons.home),
           AdaptiveScaffoldDestination(title: 'ponto', icon: Icons.access_time),
-          AdaptiveScaffoldDestination(
-              title: 'para mim', icon: Icons.emoji_emotions_outlined),
+          //AdaptiveScaffoldDestination(
+          //    title: 'para mim', icon: Icons.emoji_emotions_outlined),
         ],
         body: _pageAtIndex(currentPageIndex),
         onNavigationIndexChange: (newIndex) {
