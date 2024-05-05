@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/pages/inicio_page.dart';
-import 'package:flutter_app_bate_ponto/src/pages/para_mim_page.dart';
 import 'package:flutter_app_bate_ponto/src/pages/ponto_page.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/third_party/adaptive_scaffold.dart';
 
@@ -21,12 +20,6 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
     }
 
     return const PontoPage();
-
-    //if (index == 1) {
-    //  return const PontoPage();
-    //}
-
-    //return const ParaMimPage();
   }
 
   _mostrarInformacoes() {
@@ -86,8 +79,6 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
         destinations: const [
           AdaptiveScaffoldDestination(title: 'inicio', icon: Icons.home),
           AdaptiveScaffoldDestination(title: 'ponto', icon: Icons.access_time),
-          //AdaptiveScaffoldDestination(
-          //    title: 'para mim', icon: Icons.emoji_emotions_outlined),
         ],
         body: _pageAtIndex(currentPageIndex),
         onNavigationIndexChange: (newIndex) {

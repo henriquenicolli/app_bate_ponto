@@ -18,11 +18,11 @@ class HorasTrabalhadasCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             HorasTrabalhadas(registroPontoSnapshot: registroPontoSnapshot),
-            SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
+            const SizedBox(height: 8),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -47,27 +47,27 @@ class HorasTrabalhadasCard extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               itemCount:
-                  (registroPontoSnapshot.registroPontoHojeList.length / 2)
+                  (registroPontoSnapshot.registroPontoSelecionadoList.length / 2)
                       .ceil(),
               itemBuilder: (context, index) {
                 int entradaIndex = index * 2;
                 int saidaIndex = entradaIndex + 1;
 
                 String textoEntrada = registroPontoSnapshot
-                            .registroPontoHojeList[entradaIndex].tipoMarcacao ==
+                            .registroPontoSelecionadoList[entradaIndex].tipoMarcacao ==
                         "E"
                     ? registroPontoSnapshot
-                        .registroPontoHojeList[entradaIndex].horaFormatada
+                        .registroPontoSelecionadoList[entradaIndex].horaFormatada
                     : "";
 
                 String textoSaida = saidaIndex <
                             registroPontoSnapshot
-                                .registroPontoHojeList.length &&
-                        registroPontoSnapshot.registroPontoHojeList[saidaIndex]
+                                .registroPontoSelecionadoList.length &&
+                        registroPontoSnapshot.registroPontoSelecionadoList[saidaIndex]
                                 .tipoMarcacao ==
                             "S"
                     ? registroPontoSnapshot
-                        .registroPontoHojeList[saidaIndex].horaFormatada
+                        .registroPontoSelecionadoList[saidaIndex].horaFormatada
                     : "";
 
                 return EntradasSaidasText(
@@ -94,8 +94,8 @@ class HorasTrabalhadas extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        '${registroPontoSnapshot.formattedHorasTrabalhadasHoje} horas trabalhadas',
-        style: TextStyle(
+        '${registroPontoSnapshot.formattedHorasTrabalhadas} horas trabalhadas',
+        style: const TextStyle(
           color: Colors.blue,
           fontWeight: FontWeight.bold,
           fontSize: 18,
@@ -124,23 +124,23 @@ class EntradasSaidasText extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(flex: 5),
+            const Spacer(flex: 5),
             Text(
               text1,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
-            Spacer(flex: 5),
+            const Spacer(flex: 5),
             Text(
               text2,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
-            Spacer(flex: 5),
+            const Spacer(flex: 5),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 class ApiConfig {
   static const String _basePath = 'https://api.example.com/';
-  static const String _testPath = 'http://localhost:10000/';
+  static const String _testPath = 'http://10.0.2.2:10000/';
   static bool isTestMode = true;
 
   static const String _registrarPontoPathPOST = 'v1/rep/registroPonto/salvar';

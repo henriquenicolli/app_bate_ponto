@@ -4,25 +4,41 @@ import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 class RegistroPontoAtualSnapshot {
   final List<RegistroPonto> registroPontoHojeList;
   final List<RegistroPonto> registroPontoOntemList;
+  List<RegistroPonto> registroPontoSelecionadoList;
   final TimeOfDay horasTrabalhadasHoje;
   final TimeOfDay horasTrabalhadasOntem;
+  TimeOfDay horasTrabalhadasSelecionado;
   final TimeOfDay horasExtrasMes;
   final TimeOfDay horasExtrasHoje;
 
-  const RegistroPontoAtualSnapshot(
+  RegistroPontoAtualSnapshot(
       {required this.registroPontoHojeList,
       required this.registroPontoOntemList,
+      required this.registroPontoSelecionadoList,
       required this.horasTrabalhadasHoje,
       required this.horasTrabalhadasOntem,
+      required this.horasTrabalhadasSelecionado,
       required this.horasExtrasMes,
       required this.horasExtrasHoje});
 
-  String get formattedHorasTrabalhadasHoje {
+  set setRegistroPontoSelecionadoList(List<RegistroPonto> value) {
+    registroPontoSelecionadoList = value;
+  }
+
+  set sethorasTrabalhadasSelecionado(TimeOfDay value) {
+    horasTrabalhadasSelecionado = value;
+  }
+
+  /*String get formattedHorasTrabalhadasHoje {
     return '${horasTrabalhadasHoje.hour.toString().padLeft(2, '0')}:${horasTrabalhadasHoje.minute.toString().padLeft(2, '0')}';
   }
 
   String get formattedHorasTrabalhadasOntyem {
     return '${horasTrabalhadasOntem.hour.toString().padLeft(2, '0')}:${horasTrabalhadasOntem.minute.toString().padLeft(2, '0')}';
+  }*/
+
+  String get formattedHorasTrabalhadas {
+    return '${horasTrabalhadasSelecionado.hour.toString().padLeft(2, '0')}:${horasTrabalhadasSelecionado.minute.toString().padLeft(2, '0')}';
   }
 
   String get formattedhorasExtrasMes {
@@ -48,8 +64,11 @@ class RegistroPontoAtualSnapshot {
           parseRegistroPontoList(json['registroPontoHojeList']),
       registroPontoOntemList:
           parseRegistroPontoList(json['registroPontoOntemList']),
+      registroPontoSelecionadoList:
+          parseRegistroPontoList(json['registroPontoHojeList']),
       horasTrabalhadasHoje: parseTimeOfDay(json['horasTrabalhadasHoje']),
       horasTrabalhadasOntem: parseTimeOfDay(json['horasTrabalhadasOntem']),
+      horasTrabalhadasSelecionado: parseTimeOfDay(json['horasTrabalhadasHoje']),
       horasExtrasMes: parseTimeOfDay(json['horasExtrasMes']),
       horasExtrasHoje: parseTimeOfDay(json['horasExtrasHoje']),
     );
