@@ -58,7 +58,7 @@ class EspelhoPontoListView extends StatelessWidget {
                       children: [
                         ListTile(
                           title: Text(
-                            '${item.horaFormatada} ${item.tipoMarcacao}',
+                            '${item.horaFormatada} ${item.getTipoMarcacao}',
                             style: const TextStyle(
                               fontSize: 16,
                             ),

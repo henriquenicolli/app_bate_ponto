@@ -30,4 +30,9 @@ class RegistroPonto {
   String get horaFormatada {
     return '${horaMarcacaoPonto.hour.toString().padLeft(2, '0')}:${horaMarcacaoPonto.minute.toString().padLeft(2, '0')}';
   }
+
+  String get getTipoMarcacao {
+    return tipoMarcacao == 'E' ? 'Entrada' : 'Saída';
+  }
+
 }

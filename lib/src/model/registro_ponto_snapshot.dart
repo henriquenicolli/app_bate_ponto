@@ -29,14 +29,6 @@ class RegistroPontoAtualSnapshot {
     horasTrabalhadasSelecionado = value;
   }
 
-  /*String get formattedHorasTrabalhadasHoje {
-    return '${horasTrabalhadasHoje.hour.toString().padLeft(2, '0')}:${horasTrabalhadasHoje.minute.toString().padLeft(2, '0')}';
-  }
-
-  String get formattedHorasTrabalhadasOntyem {
-    return '${horasTrabalhadasOntem.hour.toString().padLeft(2, '0')}:${horasTrabalhadasOntem.minute.toString().padLeft(2, '0')}';
-  }*/
-
   String get formattedHorasTrabalhadas {
     return '${horasTrabalhadasSelecionado.hour.toString().padLeft(2, '0')}:${horasTrabalhadasSelecionado.minute.toString().padLeft(2, '0')}';
   }
