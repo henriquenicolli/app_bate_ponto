@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RegistroPonto {
-  final DateTime dataMarcacaoPonto;
-  final TimeOfDay horaMarcacaoPonto;
-  final String tipoMarcacao;
+  DateTime dataMarcacaoPonto;
+  TimeOfDay horaMarcacaoPonto;
+  String tipoMarcacao;
 
-  const RegistroPonto(
+  RegistroPonto(
       {required this.dataMarcacaoPonto,
       required this.horaMarcacaoPonto,
       required this.tipoMarcacao});
@@ -35,4 +35,15 @@ class RegistroPonto {
     return tipoMarcacao == 'E' ? 'Entrada' : 'Saída';
   }
 
+  set setDataMarcacaoPonto(DateTime newDataMarcacaoPonto) {
+    this.dataMarcacaoPonto = newDataMarcacaoPonto;
+  }
+
+  set setHoraMarcacaoPonto(TimeOfDay newHoraMarcacaoPonto) {
+    this.horaMarcacaoPonto = newHoraMarcacaoPonto;
+  }
+
+  set setTipoMarcacao(String newTipoMarcacao) {
+    this.tipoMarcacao = newTipoMarcacao;
+  }
 }

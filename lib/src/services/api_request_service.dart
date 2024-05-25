@@ -20,9 +20,12 @@ class ApiRequestService {
   }
 
   Future<List<RegistroPonto>> fetchRegistroPontoMesList(
-      String mesRegistros) async {
-    final response = await http
-        .get(Uri.parse('${ApiConfig.getRegistroPontoMes}$mesRegistros'));
+      String mesRegistros, String idFuncionario) async {
+
+    final Uri url = Uri.parse('${ApiConfig.getRegistroPontoMes}?mes_selecionado=$mesRegistros&id_funcionario=$idFuncionario');
+
+    final response = await http.get(url);
+
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);

@@ -6,7 +6,7 @@ class ApiConfig {
   static const String _registrarPontoPathPOST = 'v1/rep/registroPonto/salvar';
   static const String _registroPontoSnapshotGET =
       'v1/rep/registroPonto/snapshot';
-  static const String _registrosPontoMesGET = 'v1/rep/registroPonto/';
+  static const String _registrosPontoMesGET = 'v1/rep/registroPonto';
 
   static String get _apiUrl {
     if (isTestMode) {
