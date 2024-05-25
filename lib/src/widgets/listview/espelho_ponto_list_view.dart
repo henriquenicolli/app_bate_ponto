@@ -169,6 +169,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
 
             print(widget.registroSelecionado.horaFormatada);
             print(widget.registroSelecionado.tipoMarcacao);
+            print(widget.registroSelecionado.empregado);
             widget.onUpdate();
             Navigator.of(context).pop();
           },

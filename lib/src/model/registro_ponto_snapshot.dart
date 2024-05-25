@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 
 class RegistroPontoAtualSnapshot {
-  final List<RegistroPonto> registroPontoHojeList;
-  final List<RegistroPonto> registroPontoOntemList;
+  List<RegistroPonto> registroPontoHojeList;
+  List<RegistroPonto> registroPontoOntemList;
   List<RegistroPonto> registroPontoSelecionadoList;
-  final TimeOfDay horasTrabalhadasHoje;
-  final TimeOfDay horasTrabalhadasOntem;
+  TimeOfDay horasTrabalhadasHoje;
+  TimeOfDay horasTrabalhadasOntem;
   TimeOfDay horasTrabalhadasSelecionado;
-  final TimeOfDay horasExtrasMes;
-  final TimeOfDay horasExtrasHoje;
+  TimeOfDay horasExtrasMes;
+  TimeOfDay horasExtrasHoje;
 
   RegistroPontoAtualSnapshot(
       {required this.registroPontoHojeList,
