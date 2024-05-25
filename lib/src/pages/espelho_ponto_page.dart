@@ -26,8 +26,7 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
   }
 
   void _fetchRegistroPontoList() {
-    _registroPontoList =
-        _apiRequestService.fetchRegistroPontoMesList(_mesSelecionado, '1');
+    _registroPontoList = _apiRequestService.fetchRegistroPontoMesList(_mesSelecionado, '1');
   }
 
   @override

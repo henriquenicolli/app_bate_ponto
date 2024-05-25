@@ -46,28 +46,19 @@ class HorasTrabalhadasCard extends StatelessWidget {
             ),
             ListView.builder(
               shrinkWrap: true,
-              itemCount:
-                  (registroPontoSnapshot.registroPontoSelecionadoList.length / 2)
-                      .ceil(),
+              itemCount: (registroPontoSnapshot.registroPontoSelecionadoList.length / 2).ceil(),
               itemBuilder: (context, index) {
                 int entradaIndex = index * 2;
                 int saidaIndex = entradaIndex + 1;
 
-                String textoEntrada = registroPontoSnapshot
-                            .registroPontoSelecionadoList[entradaIndex].tipoMarcacao ==
-                        "E"
-                    ? registroPontoSnapshot
-                        .registroPontoSelecionadoList[entradaIndex].horaFormatada
-                    : "";
+                String textoEntrada =
+                    registroPontoSnapshot.registroPontoSelecionadoList[entradaIndex].tipoMarcacao == "E"
+                        ? registroPontoSnapshot.registroPontoSelecionadoList[entradaIndex].horaFormatada
+                        : "";
 
-                String textoSaida = saidaIndex <
-                            registroPontoSnapshot
-                                .registroPontoSelecionadoList.length &&
-                        registroPontoSnapshot.registroPontoSelecionadoList[saidaIndex]
-                                .tipoMarcacao ==
-                            "S"
-                    ? registroPontoSnapshot
-                        .registroPontoSelecionadoList[saidaIndex].horaFormatada
+                String textoSaida = saidaIndex < registroPontoSnapshot.registroPontoSelecionadoList.length &&
+                        registroPontoSnapshot.registroPontoSelecionadoList[saidaIndex].tipoMarcacao == "S"
+                    ? registroPontoSnapshot.registroPontoSelecionadoList[saidaIndex].horaFormatada
                     : "";
 
                 return EntradasSaidasText(
@@ -86,8 +77,7 @@ class HorasTrabalhadasCard extends StatelessWidget {
 class HorasTrabalhadas extends StatelessWidget {
   final RegistroPontoAtualSnapshot registroPontoSnapshot;
 
-  const HorasTrabalhadas({Key? key, required this.registroPontoSnapshot})
-      : super(key: key);
+  const HorasTrabalhadas({Key? key, required this.registroPontoSnapshot}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

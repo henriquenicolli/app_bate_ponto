@@ -29,18 +29,13 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                   padding: EdgeInsets.only(bottom: 8),
                   child: Text(
                     'Bom dia, Henrique',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        fontFamily: AppLayoutDefaults.fontFamily),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 30, fontFamily: AppLayoutDefaults.fontFamily),
                   ),
                 ),
                 Text(
                   '$dayOfWeekName, $day de $monthName',
-                  style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 20,
-                      fontFamily: AppLayoutDefaults.fontFamily),
+                  style: TextStyle(color: Colors.grey[500], fontSize: 20, fontFamily: AppLayoutDefaults.fontFamily),
                 ),
               ],
             ),

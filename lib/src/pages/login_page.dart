@@ -4,6 +4,7 @@ import '../configuration/app_layout_defaults.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -69,8 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppLayoutDefaults.secondaryColor,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -78,8 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const CustomNavigationBar()),
+                        MaterialPageRoute(builder: (context) => const CustomNavigationBar()),
                       );
                     },
                     child: Text('Entrar'),

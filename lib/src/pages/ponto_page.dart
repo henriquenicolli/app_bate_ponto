@@ -27,8 +27,7 @@ class _PontoPageState extends State<PontoPage> {
   }
 
   void _fetchRegistroPontoAtualSnapshot() {
-    _registroPontoSnapshot =
-        _apiRequestService.fetchRegistroPontoAtualSnapshot();
+    _registroPontoSnapshot = _apiRequestService.fetchRegistroPontoAtualSnapshot();
   }
 
   @override
@@ -70,12 +69,15 @@ class _PontoPageState extends State<PontoPage> {
                 return Column(
                   children: [
                     const Spacer(flex: 1),
-                    CustomToggleButtons(onToggle: (int value) {
-                      print('Toggle button value: $value');
-                      setState(() {
-                        selectedButtonIndex.value = value;
-                      });
-                    }, selectedButtonIndex: selectedButtonIndex,),
+                    CustomToggleButtons(
+                      onToggle: (int value) {
+                        print('Toggle button value: $value');
+                        setState(() {
+                          selectedButtonIndex.value = value;
+                        });
+                      },
+                      selectedButtonIndex: selectedButtonIndex,
+                    ),
                     HorasTrabalhadasCard(
                       registroPontoSnapshot: registroPontoSnapshot,
                     ),

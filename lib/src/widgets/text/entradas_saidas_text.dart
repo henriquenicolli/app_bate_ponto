@@ -14,10 +14,7 @@ class EntradasSaidasText extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text1,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              fontFamily: AppLayoutDefaults.fontFamily),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, fontFamily: AppLayoutDefaults.fontFamily),
         ),
       ),
     );

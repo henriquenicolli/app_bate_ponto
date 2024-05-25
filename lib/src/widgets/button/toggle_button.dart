@@ -4,18 +4,25 @@ import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dar
 class CustomToggleButtons extends StatelessWidget {
   final ValueChanged<int> onToggle;
   final ValueNotifier<int> selectedButtonIndex;
+
   const CustomToggleButtons({Key? key, required this.onToggle, required this.selectedButtonIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _ToggleButtons(title: 'Ponto eletrônico', onToggle: onToggle, selectedButtonIndex: selectedButtonIndex,);
+    return _ToggleButtons(
+      title: 'Ponto eletrônico',
+      onToggle: onToggle,
+      selectedButtonIndex: selectedButtonIndex,
+    );
   }
 }
 
 class _ToggleButtons extends StatefulWidget {
   final ValueChanged<int> onToggle;
   final ValueNotifier<int> selectedButtonIndex;
-  const _ToggleButtons({Key? key, required this.title, required this.onToggle, required this.selectedButtonIndex}) : super(key: key);
+
+  const _ToggleButtons({Key? key, required this.title, required this.onToggle, required this.selectedButtonIndex})
+      : super(key: key);
 
   final String title;
 
@@ -61,8 +68,6 @@ class _ToggleButtonsState extends State<_ToggleButtons> {
     );
   }
 }
-
-
 
 const List<Widget> texts = <Widget>[
   Padding(

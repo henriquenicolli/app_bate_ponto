@@ -220,8 +220,7 @@ class _MapScreenState extends State<MapScreen> {
       child: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          initialCenter:
-              LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          initialCenter: LatLng(currentLocation.latitude!, currentLocation.longitude!),
           initialZoom: 14,
         ),
         children: [
@@ -233,15 +232,13 @@ class _MapScreenState extends State<MapScreen> {
             attributions: [
               TextSourceAttribution(
                 'OpenStreetMap contributors',
-                onTap: () =>
-                    print(Uri.parse('https://openstreetmap.org/copyright')),
+                onTap: () => print(Uri.parse('https://openstreetmap.org/copyright')),
               ),
             ],
           ),
           MarkerLayer(markers: [
             Marker(
-              point:
-                  LatLng(currentLocation.latitude!, currentLocation.longitude!),
+              point: LatLng(currentLocation.latitude!, currentLocation.longitude!),
               width: 80,
               height: 80,
               child: const Icon(

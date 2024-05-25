@@ -4,7 +4,6 @@ import 'package:windows_plugin/windows_plugin.dart';
 import 'package:platform/platform.dart';
 
 void main() {
-
   if (LocalPlatform().isWindows) {
     WidgetsFlutterBinding.ensureInitialized();
 
