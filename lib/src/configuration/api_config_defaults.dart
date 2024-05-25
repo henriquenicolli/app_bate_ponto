@@ -4,8 +4,8 @@ class ApiConfig {
   static bool isTestMode = true;
 
   static const String _registrarPontoPathPOST = 'v1/rep/registroPonto/salvar';
-  static const String _registroPontoSnapshotGET =
-      'v1/rep/registroPonto/snapshot';
+  static const String _atualizarPontoPathPATCH = 'v1/rep/registroPonto/atualizar';
+  static const String _registroPontoSnapshotGET = 'v1/rep/registroPonto/snapshot';
   static const String _registrosPontoMesGET = 'v1/rep/registroPonto';
 
   static String get _apiUrl {
@@ -26,5 +26,9 @@ class ApiConfig {
 
   static String get getRegistroPontoMes {
     return _apiUrl + _registrosPontoMesGET;
+  }
+
+  static String get patchAtualizarPontoPath {
+    return _apiUrl + _atualizarPontoPathPATCH;
   }
 }

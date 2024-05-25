@@ -9,8 +9,7 @@ import 'package:http/http.dart' as http;
 
 class ApiRequestService {
   Future<RegistroPontoAtualSnapshot> fetchRegistroPontoAtualSnapshot() async {
-    final response =
-        await http.get(Uri.parse(ApiConfig.getRegistroPontoSnapshot));
+    final response = await http.get(Uri.parse(ApiConfig.getRegistroPontoSnapshot));
 
     if (response.statusCode == 200) {
       return RegistroPontoAtualSnapshot.fromJson(jsonDecode(response.body));
@@ -19,13 +18,11 @@ class ApiRequestService {
     }
   }
 
-  Future<List<RegistroPonto>> fetchRegistroPontoMesList(
-      String mesRegistros, String idFuncionario) async {
-
-    final Uri url = Uri.parse('${ApiConfig.getRegistroPontoMes}?mes_selecionado=$mesRegistros&id_funcionario=$idFuncionario');
+  Future<List<RegistroPonto>> fetchRegistroPontoMesList(String mesRegistros, String idFuncionario) async {
+    final Uri url =
+        Uri.parse('${ApiConfig.getRegistroPontoMes}?mes_selecionado=$mesRegistros&id_funcionario=$idFuncionario');
 
     final response = await http.get(url);
-
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
@@ -68,6 +65,28 @@ class ApiRequestService {
         'fonteMarcacao': fonteMarcacao,
         'idEmpregado': idEmpregado,
         'tipoMarcacao': tipoRegistro.toString().split('.').last
+      }),
+    );
+
+    return response.statusCode;
+  }
+
+  Future<int> atualizarRegistroPonto(RegistroPonto registroPonto) async {
+    final String horaMarcacaoPonto =
+        '${registroPonto.horaMarcacaoPonto.hour.toString().padLeft(2, '0')}:${registroPonto.horaMarcacaoPonto.minute.toString().padLeft(2, '0')}:00';
+
+    http.Response response = await http.patch(
+      Uri.parse(ApiConfig.patchAtualizarPontoPath),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'User-Agent': 'insomnia/8.6.1',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'numeroSequencialRegistro': registroPonto.numSeqRegistro,
+        //'dataMarcacaoPonto':  registroPonto.dataMarcacaoPonto,
+        'horaMarcacaoPonto': horaMarcacaoPonto,
+        'tipoMarcacao': registroPonto.tipoMarcacao,
+        'idEmpregado': registroPonto.empregado,
       }),
     );
 

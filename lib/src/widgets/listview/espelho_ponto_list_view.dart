@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 
+import '../../configuration/app_layout_defaults.dart';
+import '../../services/api_request_service.dart';
+
 class EspelhoPontoListView extends StatefulWidget {
   final List<RegistroPonto> items;
 
@@ -46,8 +49,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                 Column(
                   children: itemsByDate.map((registroSelecionado) {
                     final TextEditingController _controller =
-                        TextEditingController(
-                            text: registroSelecionado.horaFormatada);
+                        TextEditingController(text: registroSelecionado.horaFormatada);
                     return Column(
                       children: [
                         ListTile(
@@ -67,8 +69,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return EditarRegistroPontoDialog(
-                                          registroSelecionado:
-                                              registroSelecionado,
+                                          registroSelecionado: registroSelecionado,
                                           onUpdate: () {
                                             setState(() {});
                                           });
@@ -99,13 +100,10 @@ class EditarRegistroPontoDialog extends StatefulWidget {
   final RegistroPonto registroSelecionado;
   final Function() onUpdate;
 
-  EditarRegistroPontoDialog(
-      {Key? key, required this.registroSelecionado, required this.onUpdate})
-      : super(key: key);
+  EditarRegistroPontoDialog({Key? key, required this.registroSelecionado, required this.onUpdate}) : super(key: key);
 
   @override
-  _EditarRegistroPontoDialogState createState() =>
-      _EditarRegistroPontoDialogState();
+  _EditarRegistroPontoDialogState createState() => _EditarRegistroPontoDialogState();
 }
 
 class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
@@ -129,6 +127,13 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
+                onChanged: (String? value) {
+                  setState(() {
+                    if (value != null) {
+                      widget.registroSelecionado.setHoraMarcacaoPonto = parseTimeOfDay(value);
+                    }
+                  });
+                },
                 controller: _controller,
                 decoration: InputDecoration(
                   labelText: 'Hora',
@@ -143,8 +148,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
                     });
                   }
                 },
-                items: <String>['E', 'S']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>['E', 'S'].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -170,11 +174,38 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
             print(widget.registroSelecionado.horaFormatada);
             print(widget.registroSelecionado.tipoMarcacao);
             print(widget.registroSelecionado.empregado);
+
             widget.onUpdate();
+            atualizarPonto(widget.registroSelecionado, context);
             Navigator.of(context).pop();
           },
         ),
       ],
     );
   }
+}
+
+void atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
+  int response = await ApiRequestService().atualizarRegistroPonto(registroPonto);
+
+  if (response == 200 || response == 202) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Ponto registrado com sucesso'),
+        backgroundColor: AppLayoutDefaults.sucessColor,
+      ),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Erro durante registro de ponto'),
+        backgroundColor: AppLayoutDefaults.errorColor,
+      ),
+    );
+  }
+}
+
+TimeOfDay parseTimeOfDay(String timeString) {
+  final parts = timeString.split(':');
+  return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
 }
