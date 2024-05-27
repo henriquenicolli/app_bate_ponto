@@ -39,50 +39,38 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
       itemBuilder: (context, index) {
         List<RegistroPonto> itemsByDate = groupedItems[index];
         return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Data: ${itemsByDate[0].dataMarcacaoPonto}'),
-                Column(
-                  children: itemsByDate.map((registroSelecionado) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${registroSelecionado.horaFormatada} ${registroSelecionado.getTipoMarcacao}',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return EditarRegistroPontoDialog(
-                                          registroSelecionado: registroSelecionado,
-                                          onUpdate: () {
-                                            setState(() {});
-                                          });
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
+          child: ExpansionTile(
+            title: Text('Data: ${itemsByDate[0].dataMarcacaoPonto}'),
+            children: itemsByDate.map((registroSelecionado) {
+              return ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${registroSelecionado.horaFormatada} ${registroSelecionado.getTipoMarcacao}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return EditarRegistroPontoDialog(
+                                registroSelecionado: registroSelecionado,
+                                onUpdate: () {
+                                  setState(() {});
+                                });
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            }).toList(),
           ),
         );
       },
