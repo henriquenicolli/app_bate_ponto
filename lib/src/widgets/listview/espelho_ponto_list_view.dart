@@ -39,17 +39,14 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
       itemBuilder: (context, index) {
         List<RegistroPonto> itemsByDate = groupedItems[index];
         return Card(
-          // Resto do código...
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Resto do código...
+                Text('Data: ${itemsByDate[0].dataMarcacaoPonto}'),
                 Column(
                   children: itemsByDate.map((registroSelecionado) {
-                    final TextEditingController _controller =
-                        TextEditingController(text: registroSelecionado.horaFormatada);
                     return Column(
                       children: [
                         ListTile(
@@ -91,9 +88,6 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
       },
     );
   }
-
-/*  void showEditarHoraDialog(BuildContext context,
-      TextEditingController _controller, RegistroPonto registroSelecionado) {}*/
 }
 
 class EditarRegistroPontoDialog extends StatefulWidget {
@@ -170,10 +164,6 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
           child: Text('Salvar'),
           onPressed: () {
             // Coloque aqui a lógica para salvar as alterações
-
-            print(widget.registroSelecionado.horaFormatada);
-            print(widget.registroSelecionado.tipoMarcacao);
-            print(widget.registroSelecionado.empregado);
 
             widget.onUpdate();
             atualizarPonto(widget.registroSelecionado, context);
