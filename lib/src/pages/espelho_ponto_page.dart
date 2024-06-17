@@ -3,6 +3,7 @@ import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dar
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
+import 'package:flutter_app_bate_ponto/src/widgets/button/incluir_registro_button.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/selector/mes_selector_state.dart';
 import '../widgets/listview/espelho_ponto_list_view.dart';
 
@@ -41,6 +42,18 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
             color: AppLayoutDefaults.secondaryColor,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.notification_important,
+                color: AppLayoutDefaults.secondaryColor,
+              ),
+              onPressed: () => {}
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -65,6 +78,7 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
               },
             ),
           ),
+          IncluirRegistroButton(),
         ],
       ),
     );

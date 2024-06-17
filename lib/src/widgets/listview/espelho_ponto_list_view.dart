@@ -41,6 +41,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
         return Card(
           child: ExpansionTile(
             title: Text('Data: ${itemsByDate[0].dataMarcacaoPonto}'),
+            subtitle: Text('Sem apontamento'),
             children: itemsByDate.map((registroSelecionado) {
               return ListTile(
                 title: Row(
@@ -154,7 +155,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
             // Coloque aqui a lógica para salvar as alterações
 
             widget.onUpdate();
-            atualizarPonto(widget.registroSelecionado, context);
+            _atualizarPonto(widget.registroSelecionado, context);
             Navigator.of(context).pop();
           },
         ),
@@ -163,7 +164,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
   }
 }
 
-void atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
+void _atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
   int response = await ApiRequestService().atualizarRegistroPonto(registroPonto);
 
   if (response == 200 || response == 202) {
