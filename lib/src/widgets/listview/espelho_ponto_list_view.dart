@@ -165,7 +165,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
 }
 
 void _atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
-  int response = await ApiRequestService().atualizarRegistroPonto(registroPonto);
+  int? response = await ApiRequestService().atualizarRegistroPonto(registroPonto);
 
   if (response == 200 || response == 202) {
     ScaffoldMessenger.of(context).showSnackBar(

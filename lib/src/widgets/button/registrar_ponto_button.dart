@@ -85,7 +85,7 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
 
   void _registraPonto(BuildContext context) async {
     try {
-      int response = await ApiRequestService().postRegistraPonto(
+      int? response = await ApiRequestService().postRegistraPonto(
         currentLocation,
         tipoRegistro!,
         "GMT-3",
