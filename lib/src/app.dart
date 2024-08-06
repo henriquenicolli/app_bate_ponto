@@ -3,6 +3,7 @@ import 'package:flutter_app_bate_ponto/src/pages/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:process_run/shell.dart';
 
+
 class AppBarApp extends StatelessWidget {
   const AppBarApp({super.key});
 

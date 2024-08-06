@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/navigation/navigation_bar.dart';
 import '../configuration/app_layout_defaults.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +12,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  ApiRequestService apiRequestService = ApiRequestService();
+  final TextEditingController loginController = TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
+
+  @override
+  void dispose() {
+    loginController.dispose();
+    senhaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  controller: loginController,
                   decoration: const InputDecoration(
                     labelText: 'Cnpj / cpf / email',
                     border: OutlineInputBorder(),
@@ -56,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  controller: senhaController,
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Senha',
@@ -75,11 +91,17 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CustomNavigationBar()),
-                      );
+                    onPressed: () async {
+                      int? loginStatus = await apiRequestService.login(loginController.text, senhaController.text);
+
+                      if (loginStatus == 200) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CustomNavigationBar()),
+                        );
+                      } else {
+                        mostrarDialogFalhaLogin(context);
+                      }
                     },
                     child: Text('Entrar'),
                   ),
@@ -91,4 +113,36 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+
+void mostrarDialogFalhaLogin(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'Erro de Login',
+          style: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          'Usuário ou senha incorretos. Por favor, tente novamente.',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Fechar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

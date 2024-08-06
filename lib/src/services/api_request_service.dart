@@ -7,12 +7,18 @@ import '../model/registro_ponto_snapshot.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiRequestService {
 
-  Dio _dio = Dio();
+  final String USERNAME = 'username';
+  final String PASSWORD = 'password';
+  final Dio _dio = Dio();
   String? _token;
 
+  ///
+  /// Metodo [ApiRequestService] construtor que adiciona um interceptor para adicionar token as requisicoes ao webserver.
+  ///
   ApiRequestService() {
     _dio.interceptors.add(InterceptorsWrapper(
       onError: (DioError error, ErrorInterceptorHandler handler) async {
@@ -21,10 +27,8 @@ class ApiRequestService {
 
           RequestOptions requestOptions = error.response!.requestOptions;
 
-          if (newToken != null) {
-            _token = newToken;
-            requestOptions.headers["Authorization"] = "Bearer $newToken";
-          }
+          _token = newToken;
+          requestOptions.headers["Authorization"] = "Bearer $newToken";
 
           _dio.fetch(requestOptions).then((e) {
             handler.resolve(e);
@@ -38,15 +42,43 @@ class ApiRequestService {
     ));
   }
 
-  Future<String> _generateNewToken() async {
+  ///
+  /// Metodo [login] que executa a autenticacao de um usuario.
+  ///
+  Future<int> login<T>(String username, String password) async {
     final response = await http.post(
       Uri.parse(ApiConfig.getNewToken),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'username': 'biondo',
-        'password': 'admin',
+        USERNAME: username,
+        PASSWORD: password,
+      }),
+    );
+
+    storeUserCredentials(username, password);
+
+    return response.statusCode == 200 ? 200 : 401;
+  }
+
+
+  ///
+  /// Método [_generateNewToken] retorna um novo token.
+  ///
+  Future<String> _generateNewToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString(USERNAME);
+    String? password = prefs.getString(PASSWORD);
+
+    final response = await http.post(
+      Uri.parse(ApiConfig.getNewToken),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'username': username,
+        'password': password,
       }),
     );
 
@@ -57,8 +89,10 @@ class ApiRequestService {
     }
   }
 
+  ///
+  /// Metodo GET [fetchRegistroPontoAtualSnapshot] que recupera o snapshot do registro de ponto atual.
+  ///
   Future<RegistroPontoAtualSnapshot> fetchRegistroPontoAtualSnapshot() async {
-
     _token = await _generateNewToken();
 
     final response = await _dio.get(
@@ -73,6 +107,9 @@ class ApiRequestService {
     }
   }
 
+  ///
+  /// Metodo GET [fetchRegistroPontoMesList] que recupera os registors de ponto do mes.
+  ///
   Future<List<RegistroPonto>> fetchRegistroPontoMesList(String mesRegistros, String idFuncionario) async {
     final Uri url =
     Uri.parse('${ApiConfig.getRegistroPontoMes}?mes_selecionado=$mesRegistros&id_funcionario=$idFuncionario');
@@ -90,6 +127,9 @@ class ApiRequestService {
     }
   }
 
+  ///
+  /// Metodo POST [postRegistraPonto] que cria um novo registro de ponto.
+  ///
   Future<int?> postRegistraPonto(
       LocationData currentLocation,
       TipoRegistro tipoRegistro,
@@ -131,6 +171,9 @@ class ApiRequestService {
     return response.statusCode;
   }
 
+  ///
+  /// Metodo PATCH [atualizarRegistroPonto] atualiza um registro de ponto.
+  ///
   Future<int?> atualizarRegistroPonto(RegistroPonto registroPonto) async {
     final String horaMarcacaoPonto =
         '${registroPonto.horaMarcacaoPonto.hour.toString().padLeft(2, '0')}:${registroPonto.horaMarcacaoPonto.minute.toString().padLeft(2, '0')}:00';
@@ -150,5 +193,14 @@ class ApiRequestService {
     );
 
     return response.statusCode;
+  }
+
+  ///
+  /// Metodo [storeUserCredentials] que armazena as credenciais de usuario no SharedPreferences.
+  ///
+  void storeUserCredentials(String username, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(USERNAME, username);
+    await prefs.setString(PASSWORD, password);
   }
 }
