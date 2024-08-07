@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/app.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/pages/inicio_page.dart';
 import 'package:flutter_app_bate_ponto/src/pages/ponto_page.dart';
 import 'package:flutter_app_bate_ponto/src/widgets/third_party/adaptive_scaffold.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+///
+/// Classe [CustomNavigationBar] que controla a navigation bar do aplicativo.
+/// Controla o estado de navegar entre [InicioPage] e [PontoPage].
+/// Tambem controla a topbar, contendo o botao de logou e o titulo da aplicacao
+///
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({super.key});
 
@@ -22,19 +29,79 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
     return const PontoPage();
   }
 
-  _mostrarInformacoes() {
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: AdaptiveScaffold(
+            title: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.timelapse,
+                    color: AppLayoutDefaults.secondaryColor,
+                  ),
+                ),
+                Text(
+                  'Bate Ponto',
+                  style: TextStyle(
+                      fontFamily: AppLayoutDefaults.fontFamily,
+                      fontWeight: FontWeight.bold,
+                      color: AppLayoutDefaults.secondaryColor),
+                ),
+              ],
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.logout,
+                    color: AppLayoutDefaults.secondaryColor,
+                  ),
+                  onPressed: () => mostrarLogoutDialog(),
+                ),
+              )
+            ],
+            currentIndex: currentPageIndex,
+            destinations: const [
+              AdaptiveScaffoldDestination(title: 'inicio', icon: Icons.home),
+              AdaptiveScaffoldDestination(title: 'ponto', icon: Icons.access_time),
+            ],
+            body: _pageAtIndex(currentPageIndex),
+            onNavigationIndexChange: (newIndex) {
+              setState(() {
+                currentPageIndex = newIndex;
+              });
+            }));
+  }
+
+  ///
+  /// Metodo [mostrarLogoutDialog] exibe o dialog responsavel por executar a acao de logout.
+  ///
+  mostrarLogoutDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Informações'),
-          content: const Text('building...'),
+          title: const Text('Deseja sair?'),
           actions: [
             TextButton(
+              child: const Text('Cancelar'),
               onPressed: () {
-                Navigator.of(context).pop(); // Fecha o Dialog
+                Navigator.of(context).pop();
               },
-              child: const Text('Fechar'),
+            ),
+            TextButton(
+              child: const Text('Deslogar'),
+              onPressed: () {
+                limparSharedPreferences();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => AppBarApp()),
+                  (Route<dynamic> route) => false,
+                );
+              },
             ),
           ],
         );
@@ -42,49 +109,11 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AdaptiveScaffold(
-        title: const Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.timelapse,
-                color: AppLayoutDefaults.secondaryColor,
-              ),
-            ),
-            Text(
-              'Bate Ponto',
-              style: TextStyle(
-                  fontFamily: AppLayoutDefaults.fontFamily,
-                  fontWeight: FontWeight.bold,
-                  color: AppLayoutDefaults.secondaryColor),
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: const Icon(
-                Icons.info,
-                color: AppLayoutDefaults.secondaryColor,
-              ),
-              onPressed: () => _mostrarInformacoes(),
-            ),
-          )
-        ],
-        currentIndex: currentPageIndex,
-        destinations: const [
-          AdaptiveScaffoldDestination(title: 'inicio', icon: Icons.home),
-          AdaptiveScaffoldDestination(title: 'ponto', icon: Icons.access_time),
-        ],
-        body: _pageAtIndex(currentPageIndex),
-        onNavigationIndexChange: (newIndex) {
-          setState(() {
-            currentPageIndex = newIndex;
-          });
-        });
+  ///
+  /// Metodo [limparSharedPreferences] limpa todas as opcoes armazenadas no SharedPreferences.
+  ///
+  Future<void> limparSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 }
