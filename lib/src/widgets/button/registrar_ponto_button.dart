@@ -14,10 +14,19 @@ LocationData currentLocation = LocationData.fromMap({
 });
 
 TipoRegistro? tipoRegistro = TipoRegistro.E;
+const String fusoHorarioMarcacao = "GMT-3";
 
-class RegistrarPontoButton extends StatelessWidget {
+///
+/// Classe [RegistrarPontoButton], componente do botão RegistrarPonto que ao ser clicado exibe um dialogo
+///
+class RegistrarPontoButton extends StatefulWidget {
   const RegistrarPontoButton({Key? key}) : super(key: key);
 
+  @override
+  State<RegistrarPontoButton> createState() => _RegistrarPontoButtonState();
+}
+
+class _RegistrarPontoButtonState extends State<RegistrarPontoButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -28,7 +37,7 @@ class RegistrarPontoButton extends StatelessWidget {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return RegistrarPontoApiCallDialog();
+              return RegistrarPontoCallDialog(parentContext: context);
             },
           );
         },
@@ -49,19 +58,51 @@ class RegistrarPontoButton extends StatelessWidget {
   }
 }
 
-class RegistrarPontoApiCallDialog extends StatelessWidget {
-  const RegistrarPontoApiCallDialog({Key? key}) : super(key: key);
+///
+/// Classe [RegistrarPontoCallDialog], componente que exibe um dialog com a opcao de realizar um registro de ponto
+///
+class RegistrarPontoCallDialog extends StatefulWidget {
+  final BuildContext parentContext;
+
+  const RegistrarPontoCallDialog({Key? key, required this.parentContext}) : super(key: key);
+
+  @override
+  State<RegistrarPontoCallDialog> createState() => _RegistrarPontoCallDialogState();
+}
+
+class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
+  Future<int>? _future;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Registrar ponto'),
-      content: const SingleChildScrollView(
+      content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
             Text('Deseja confirmar o registro de ponto?'),
             RadioEntradaSaida(),
             MapScreen(),
+            if (_future != null)
+              FutureBuilder<int>(
+                future: _future,
+                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return mostraCirularProgressIndicator();
+                  } else {
+                    if (snapshot.hasError || snapshot.data == -1) {
+                      WidgetsBinding.instance!.addPostFrameCallback((_) {
+                        mostraDialogErroRegistroPonto();
+                      });
+                    } else {
+                      WidgetsBinding.instance!.addPostFrameCallback((_) {
+                        mostraDialogRegistradoSucesso();
+                      });
+                    }
+                  }
+                  return Container();
+                },
+              ),
           ],
         ),
       ),
@@ -74,8 +115,9 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
-            _registraPonto(context);
+            setState(() {
+              _future = _registraPonto();
+            });
           },
           child: const Text('Registrar'),
         ),
@@ -83,12 +125,23 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
     );
   }
 
-  void _registraPonto(BuildContext context) async {
+  Center mostraCirularProgressIndicator() {
+    return Center(
+      child: SizedBox(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  Future<int> _registraPonto() async {
     try {
+
       int? response = await ApiRequestService().postRegistraPonto(
         currentLocation,
         tipoRegistro!,
-        "GMT-3",
+        fusoHorarioMarcacao,
         true,
         "123.456.789-00",
         "Inicio de expediente",
@@ -98,28 +151,65 @@ class RegistrarPontoApiCallDialog extends StatelessWidget {
       );
 
       if (response == 200 || response == 202) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Ponto registrado com sucesso'),
-            backgroundColor: AppLayoutDefaults.sucessColor,
-          ),
-        );
+        return 1;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erro durante registro de ponto'),
-            backgroundColor: AppLayoutDefaults.errorColor,
-          ),
-        );
+        return -1;
       }
     } catch (exc) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro durante registro de ponto'),
-          backgroundColor: AppLayoutDefaults.errorColor,
-        ),
-      );
+      return -1;
     }
+  }
+
+  void mostraDialogErroRegistroPonto() {
+    showDialog(
+      context: widget.parentContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Erro ao registrar ponto',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Servico indisponivel. Por favor, tente novamente.',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Fechar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void mostraDialogRegistradoSucesso() {
+    showDialog(
+      context: widget.parentContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Ponto registrado com sucesso!'),
+          actions: [
+            TextButton(
+              child: const Text('Fechar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
