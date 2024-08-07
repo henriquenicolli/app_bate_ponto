@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/navigation/navigation_bar.dart';
-import '../configuration/app_layout_defaults.dart';
+import 'package:flutter_app_bate_ponto/src/layout/widgets/navigation/navigation_bar.dart';
+
+import '../../configuration/app_layout_defaults.dart';
 
 
 class LoginPage extends StatefulWidget {

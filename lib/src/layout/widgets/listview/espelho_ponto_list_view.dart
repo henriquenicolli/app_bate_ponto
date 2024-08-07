@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/model/enums/tipo_marcacao.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 
-import '../../configuration/app_layout_defaults.dart';
-import '../../services/api_request_service.dart';
+import '../../../configuration/app_layout_defaults.dart';
+import '../../../services/api_request_service.dart';
 
+///
+/// Componente [EspelhoPontoListView] ListView que exibe o espelho de ponto
+///
 class EspelhoPontoListView extends StatefulWidget {
   final List<RegistroPonto> items;
 
@@ -103,11 +107,8 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
     return AlertDialog(
       title: Text('Editar item'),
       content: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.4,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 onChanged: (String? value) {
@@ -123,7 +124,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
                 ),
               ),
               DropdownButton<String>(
-                value: widget.registroSelecionado.tipoMarcacao,
+                value: widget.registroSelecionado.getTipoMarcacao,
                 onChanged: (String? newValue) {
                   if (newValue != null) {
                     setState(() {
@@ -131,7 +132,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
                     });
                   }
                 },
-                items: <String>['E', 'S'].map<DropdownMenuItem<String>>((String value) {
+                items: <String>[TipoMarcacao.ENTRADA.descricao, TipoMarcacao.SAIDA.descricao].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -152,8 +153,6 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
         TextButton(
           child: Text('Salvar'),
           onPressed: () {
-            // Coloque aqui a lógica para salvar as alterações
-
             widget.onUpdate();
             _atualizarPonto(widget.registroSelecionado, context);
             Navigator.of(context).pop();

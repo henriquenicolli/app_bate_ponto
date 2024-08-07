@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
+
 import '../../pages/espelho_ponto_page.dart';
 
 class IncluirRegistroButton extends StatelessWidget {

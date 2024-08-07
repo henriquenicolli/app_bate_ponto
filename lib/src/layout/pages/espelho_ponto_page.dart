@@ -3,8 +3,9 @@ import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dar
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/button/incluir_registro_button.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/selector/mes_selector_state.dart';
+
+import 'package:flutter_app_bate_ponto/src/layout/widgets/selector/mes_selector_state.dart';
+import '../widgets/button/incluir_registro_button.dart';
 import '../widgets/listview/espelho_ponto_list_view.dart';
 
 class EspelhoPontoPage extends StatefulWidget {

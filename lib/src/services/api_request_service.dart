@@ -1,7 +1,7 @@
 import 'package:location/location.dart';
 
 import '../configuration/api_config_defaults.dart';
-import '../model/enums/tipo_registro.dart';
+import '../model/enums/tipo_marcacao.dart';
 import '../model/registro_ponto.dart';
 import '../model/registro_ponto_snapshot.dart';
 import 'dart:convert';
@@ -132,7 +132,7 @@ class ApiRequestService {
   ///
   Future<int?> postRegistraPonto(
       LocationData currentLocation,
-      TipoRegistro tipoRegistro,
+      TipoMarcacao tipoMarcacao,
       String fusoHorarioMarcacao,
       bool marcacaoOnline,
       String cpfFuncionario,
@@ -164,7 +164,7 @@ class ApiRequestService {
         'coletorRegistro': coletorRegistro,
         'fonteMarcacao': fonteMarcacao,
         'idEmpregado': idEmpregado,
-        'tipoMarcacao': tipoRegistro.toString().split('.').last
+        'tipoMarcacao': tipoMarcacao.codigo
       }),
     );
 
@@ -175,8 +175,11 @@ class ApiRequestService {
   /// Metodo PATCH [atualizarRegistroPonto] atualiza um registro de ponto.
   ///
   Future<int?> atualizarRegistroPonto(RegistroPonto registroPonto) async {
-    final String horaMarcacaoPonto =
+    final String formattedDataHoraMarcacaoPonto =
         '${registroPonto.horaMarcacaoPonto.hour.toString().padLeft(2, '0')}:${registroPonto.horaMarcacaoPonto.minute.toString().padLeft(2, '0')}:00';
+
+    final String formattedDataMarcacaoPonto =
+        '${registroPonto.dataMarcacaoPonto.year}-${registroPonto.dataMarcacaoPonto.month.toString().padLeft(2, '0')}-${registroPonto.dataMarcacaoPonto.day.toString().padLeft(2, '0')}';
 
     final response = await _dio.patch(
       ApiConfig.patchAtualizarPontoPath,
@@ -186,9 +189,18 @@ class ApiRequestService {
       }),
       data: jsonEncode(<String, dynamic>{
         'numeroSequencialRegistro': registroPonto.numSeqRegistro,
-        'horaMarcacaoPonto': horaMarcacaoPonto,
+        'horaMarcacaoPonto': formattedDataHoraMarcacaoPonto,
+        'dataMarcacaoPonto': formattedDataMarcacaoPonto,
         'tipoMarcacao': registroPonto.tipoMarcacao,
         'idEmpregado': registroPonto.empregado,
+        'motivoMarcacao': registroPonto.motivoMarcacao,
+        'coletorRegistro': registroPonto.coletorRegistro,
+        'fonteMarcacao': registroPonto.fonteMarcacao,
+        'marcacaoOnline': registroPonto.marcacaoOnline,
+        'cpfFuncionario': registroPonto.cpfFuncionario,
+        'fusoHorarioMarcacao': registroPonto.fusoHorarioMarcacao,
+        'latitude': registroPonto.latitude,
+        'longitude': registroPonto.longitude,
       }),
     );
 

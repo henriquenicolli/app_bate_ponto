@@ -6,14 +6,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
-import '../../model/enums/tipo_registro.dart';
+import '../../../model/enums/tipo_marcacao.dart';
 
 LocationData currentLocation = LocationData.fromMap({
   'latitude': -23.5505,
   'longitude': -46.6333,
 });
 
-TipoRegistro? tipoRegistro = TipoRegistro.E;
+TipoMarcacao? tipoMarcacao = TipoMarcacao.ENTRADA;
 const String fusoHorarioMarcacao = "GMT-3";
 
 ///
@@ -140,7 +140,7 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
 
       int? response = await ApiRequestService().postRegistraPonto(
         currentLocation,
-        tipoRegistro!,
+        tipoMarcacao!,
         fusoHorarioMarcacao,
         true,
         "123.456.789-00",
@@ -225,23 +225,23 @@ class _RadioEntradaSaidaState extends State<RadioEntradaSaida> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        RadioListTile<TipoRegistro>(
+        RadioListTile<TipoMarcacao>(
           title: const Text('Entrada'),
-          value: TipoRegistro.E,
-          groupValue: tipoRegistro,
-          onChanged: (TipoRegistro? value) {
+          value: TipoMarcacao.ENTRADA,
+          groupValue: tipoMarcacao,
+          onChanged: (TipoMarcacao? value) {
             setState(() {
-              tipoRegistro = value;
+              tipoMarcacao = value;
             });
           },
         ),
-        RadioListTile<TipoRegistro>(
+        RadioListTile<TipoMarcacao>(
           title: const Text('Saída'),
-          value: TipoRegistro.S,
-          groupValue: tipoRegistro,
-          onChanged: (TipoRegistro? value) {
+          value: TipoMarcacao.SAIDA,
+          groupValue: tipoMarcacao,
+          onChanged: (TipoMarcacao? value) {
             setState(() {
-              tipoRegistro = value;
+              tipoMarcacao = value;
             });
           },
         ),

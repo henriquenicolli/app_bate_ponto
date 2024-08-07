@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/src/pages/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:process_run/shell.dart';
+
+import 'layout/pages/login_page.dart';
 
 
 class AppBarApp extends StatelessWidget {

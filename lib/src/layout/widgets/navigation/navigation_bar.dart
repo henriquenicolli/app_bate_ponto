@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/app.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
-import 'package:flutter_app_bate_ponto/src/pages/inicio_page.dart';
-import 'package:flutter_app_bate_ponto/src/pages/ponto_page.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/third_party/adaptive_scaffold.dart';
+import 'package:flutter_app_bate_ponto/src/layout/pages/inicio_page.dart';
+import 'package:flutter_app_bate_ponto/src/layout/pages/ponto_page.dart';
+import 'package:flutter_app_bate_ponto/src/layout/widgets/third_party/adaptive_scaffold.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///

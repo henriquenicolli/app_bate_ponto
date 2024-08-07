@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_bate_ponto/src/model/enums/tipo_marcacao.dart';
 
 class RegistroPonto {
   int numSeqRegistro;
@@ -80,6 +81,7 @@ class RegistroPonto {
   }
 
   set setTipoMarcacao(String newTipoMarcacao) {
-    this.tipoMarcacao = newTipoMarcacao;
+    TipoMarcacao tipoRegistro = newTipoMarcacao == 'Entrada' ? TipoMarcacao.ENTRADA : TipoMarcacao.SAIDA;
+    this.tipoMarcacao = tipoRegistro.codigo;
   }
 }

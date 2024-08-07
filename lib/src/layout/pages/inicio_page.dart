@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/button/registrar_ponto_button.dart';
-import 'package:flutter_app_bate_ponto/src/widgets/text/welcome_text.dart';
+import 'package:flutter_app_bate_ponto/src/layout/widgets/button/registrar_ponto_button.dart';
+
+import '../widgets/text/welcome_text.dart';
 
 class InicioPage extends StatelessWidget {
   const InicioPage({Key? key}) : super(key: key);

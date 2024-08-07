@@ -1,4 +1,0 @@
-enum TipoRegistro {
-  E,
-  S,
-}
