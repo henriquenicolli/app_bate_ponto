@@ -86,7 +86,7 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
             if (_future != null)
               FutureBuilder<int>(
                 future: _future,
-                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return mostraCirularProgressIndicator();
                   } else {
@@ -137,7 +137,6 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
 
   Future<int> _registraPonto() async {
     try {
-
       int? response = await ApiRequestService().postRegistraPonto(
         currentLocation,
         tipoMarcacao!,

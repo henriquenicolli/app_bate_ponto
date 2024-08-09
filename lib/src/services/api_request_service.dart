@@ -93,16 +93,20 @@ class ApiRequestService {
   /// Metodo GET [fetchRegistroPontoAtualSnapshot] que recupera o snapshot do registro de ponto atual.
   ///
   Future<RegistroPontoAtualSnapshot> fetchRegistroPontoAtualSnapshot() async {
-    _token = await _generateNewToken();
+    try {
+      _token = await _generateNewToken();
 
-    final response = await _dio.get(
-      ApiConfig.getRegistroPontoSnapshot,
-      options: Options(headers: {'Authorization': 'Bearer $_token'}),
-    );
-
-    if (response.statusCode == 200) {
-      return RegistroPontoAtualSnapshot.fromJson(response.data);
-    } else {
+      final response = await _dio.get(
+        ApiConfig.getRegistroPontoSnapshot,
+        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+      );
+      if (response.statusCode == 200) {
+        return RegistroPontoAtualSnapshot.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load registros de ponto');
+      }
+    } catch (e) {
+      print('erro ao carregar snapshot ponto: $e');
       throw Exception('Failed to load registros de ponto');
     }
   }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/model/enums/tipo_marcacao.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
-
-import '../../../configuration/app_layout_defaults.dart';
 import '../../../services/api_request_service.dart';
 
 ///
@@ -18,6 +16,7 @@ class EspelhoPontoListView extends StatefulWidget {
 }
 
 class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
+
   List<List<RegistroPonto>> groupItemsByDate(List<RegistroPonto> items) {
     Map<DateTime, List<RegistroPonto>> groupedItems = {};
 
@@ -57,6 +56,14 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                         fontSize: 16,
                       ),
                     ),
+                    if (registroSelecionado.registroAlterado && !registroSelecionado.registroAlteradoAprovacao)
+                      Row(
+                        children: [
+                          Icon(Icons.warning, color: Colors.orangeAccent),
+                          Text('Pendente de aprovação', style: TextStyle(color: Colors.orangeAccent)),
+                          // Texto ao lado do ícone
+                        ],
+                      ),
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
@@ -65,9 +72,12 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                           builder: (BuildContext context) {
                             return EditarRegistroPontoDialog(
                                 registroSelecionado: registroSelecionado,
-                                onUpdate: () {
-                                  setState(() {});
-                                });
+                                 onUpdate: () {
+                                    setState(() {
+
+                                    });
+                                  },
+                              parentContext: context,);
                           },
                         );
                       },
@@ -86,8 +96,9 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
 class EditarRegistroPontoDialog extends StatefulWidget {
   final RegistroPonto registroSelecionado;
   final Function() onUpdate;
+  final BuildContext parentContext;
 
-  EditarRegistroPontoDialog({Key? key, required this.registroSelecionado, required this.onUpdate}) : super(key: key);
+  EditarRegistroPontoDialog({Key? key, required this.registroSelecionado, required this.onUpdate, required this.parentContext}) : super(key: key);
 
   @override
   _EditarRegistroPontoDialogState createState() => _EditarRegistroPontoDialogState();
@@ -95,6 +106,7 @@ class EditarRegistroPontoDialog extends StatefulWidget {
 
 class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
   final TextEditingController _controller = TextEditingController();
+  Future<int>? _future;
 
   @override
   void initState() {
@@ -111,10 +123,12 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
           child: Column(
             children: <Widget>[
               TextField(
-                onChanged: (String? value) {
+                onChanged: (String? horaSelecionada) {
                   setState(() {
-                    if (value != null) {
-                      widget.registroSelecionado.setHoraMarcacaoPonto = parseTimeOfDay(value);
+                    if (horaSelecionada != null) {
+                      widget.registroSelecionado.setHoraMarcacaoPonto = parseTimeOfDay(horaSelecionada);
+                      widget.registroSelecionado.registroAlterado = true;
+                      widget.registroSelecionado.registroAlteradoAprovacao = false;
                     }
                   });
                 },
@@ -125,20 +139,42 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
               ),
               DropdownButton<String>(
                 value: widget.registroSelecionado.getTipoMarcacao,
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
+                onChanged: (String? tipoMarcacao) {
+                  if (tipoMarcacao != null) {
                     setState(() {
-                      widget.registroSelecionado.setTipoMarcacao = newValue;
+                      widget.registroSelecionado.setTipoMarcacao = tipoMarcacao;
+                      widget.registroSelecionado.registroAlterado = true;
+                      widget.registroSelecionado.registroAlteradoAprovacao = false;
                     });
                   }
                 },
-                items: <String>[TipoMarcacao.ENTRADA.descricao, TipoMarcacao.SAIDA.descricao].map<DropdownMenuItem<String>>((String value) {
+                items: <String>[TipoMarcacao.ENTRADA.descricao, TipoMarcacao.SAIDA.descricao]
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
                   );
                 }).toList(),
               ),
+              if (_future != null)
+                FutureBuilder<int>(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return mostraCirularProgressIndicator();
+                      } else {
+                        if (snapshot.hasError || snapshot.data == -1) {
+                          WidgetsBinding.instance!.addPostFrameCallback((_) {
+                            mostraDialogErroRegistroPonto();
+                          });
+                        } else {
+                          WidgetsBinding.instance!.addPostFrameCallback((_) {
+                            mostraDialogRegistradoSucesso();
+                          });
+                        }
+                      }
+                      return Container();
+                    }),
             ],
           ),
         ),
@@ -153,33 +189,89 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
         TextButton(
           child: Text('Salvar'),
           onPressed: () {
-            widget.onUpdate();
-            _atualizarPonto(widget.registroSelecionado, context);
-            Navigator.of(context).pop();
+            setState(() {
+              _future = _atualizarPonto(widget.registroSelecionado, context);
+              widget.onUpdate();
+            });
+
+            //Navigator.of(context).pop();
           },
         ),
       ],
     );
   }
+
+  void mostraDialogRegistradoSucesso() {
+    showDialog(
+      context: widget.parentContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Solicitacao de alteracao de ponto enviada!'),
+          actions: [
+            TextButton(
+              child: const Text('Fechar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void mostraDialogErroRegistroPonto() {
+    showDialog(
+      context: widget.parentContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Erro ao atualizar ponto',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Servico indisponivel. Por favor, tente novamente.',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Fechar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Center mostraCirularProgressIndicator() {
+    return Center(
+      child: SizedBox(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+  
 }
 
-void _atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
+Future<int> _atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
   int? response = await ApiRequestService().atualizarRegistroPonto(registroPonto);
 
   if (response == 200 || response == 202) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Ponto registrado com sucesso'),
-        backgroundColor: AppLayoutDefaults.sucessColor,
-      ),
-    );
+    return 1;
   } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Erro durante registro de ponto'),
-        backgroundColor: AppLayoutDefaults.errorColor,
-      ),
-    );
+    return -1;
   }
 }
 
@@ -187,3 +279,7 @@ TimeOfDay parseTimeOfDay(String timeString) {
   final parts = timeString.split(':');
   return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
 }
+
+
+
+

@@ -17,6 +17,8 @@ class RegistroPonto {
   String tipoMarcacao;
   String fonteMarcacao;
   String empregado;
+  bool registroAlterado;
+  bool registroAlteradoAprovacao;
 
   RegistroPonto({
     required this.numSeqRegistro,
@@ -33,7 +35,10 @@ class RegistroPonto {
     required this.coletorRegistro,
     required this.tipoMarcacao,
     required this.fonteMarcacao,
-    required this.empregado});
+    required this.empregado,
+    required this.registroAlterado,
+    required this.registroAlteradoAprovacao
+  });
 
   factory RegistroPonto.fromJson(Map<String, dynamic> json) {
     TimeOfDay parseTimeOfDay(String timeString) {
@@ -58,6 +63,8 @@ class RegistroPonto {
         tipoMarcacao: json['tipoMarcacao'],
         fonteMarcacao: json['fonteMarcacao'],
         empregado: json['empregado'],
+        registroAlterado: json['registroAlterado'] ?? false,
+        registroAlteradoAprovacao: json['registroAlteradoAprovacao'] ?? false
       );
     } else {
       throw const FormatException('Failed to parse registro ponto');
