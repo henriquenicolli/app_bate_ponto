@@ -17,21 +17,6 @@ class EspelhoPontoListView extends StatefulWidget {
 
 class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
 
-  List<List<RegistroPonto>> groupItemsByDate(List<RegistroPonto> items) {
-    Map<DateTime, List<RegistroPonto>> groupedItems = {};
-
-    for (var item in items) {
-      DateTime date = item.dataMarcacaoPonto;
-      DateTime dateOnly = DateTime(date.year, date.month, date.day);
-      if (groupedItems.containsKey(dateOnly)) {
-        groupedItems[dateOnly]!.add(item);
-      } else {
-        groupedItems[dateOnly] = [item];
-      }
-    }
-
-    return groupedItems.values.toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +56,12 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                           context: context,
                           builder: (BuildContext context) {
                             return EditarRegistroPontoDialog(
-                                registroSelecionado: registroSelecionado,
-                                 onUpdate: () {
-                                    setState(() {
-
-                                    });
-                                  },
-                              parentContext: context,);
+                              registroSelecionado: registroSelecionado,
+                              onUpdate: () {
+                                setState(() {});
+                              },
+                              parentContext: context,
+                            );
                           },
                         );
                       },
@@ -93,12 +77,17 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
   }
 }
 
+///
+/// Componente [EditarRegistroPontoDialog] Dialog por editar um Registro de Ponto
+///
 class EditarRegistroPontoDialog extends StatefulWidget {
   final RegistroPonto registroSelecionado;
   final Function() onUpdate;
   final BuildContext parentContext;
 
-  EditarRegistroPontoDialog({Key? key, required this.registroSelecionado, required this.onUpdate, required this.parentContext}) : super(key: key);
+  EditarRegistroPontoDialog(
+      {Key? key, required this.registroSelecionado, required this.onUpdate, required this.parentContext})
+      : super(key: key);
 
   @override
   _EditarRegistroPontoDialogState createState() => _EditarRegistroPontoDialogState();
@@ -262,7 +251,6 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
       ),
     );
   }
-  
 }
 
 Future<int> _atualizarPonto(RegistroPonto registroPonto, BuildContext context) async {
@@ -280,6 +268,21 @@ TimeOfDay parseTimeOfDay(String timeString) {
   return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
 }
 
+///
+/// Agrupa os registros de ponto por data
+///
+List<List<RegistroPonto>> groupItemsByDate(List<RegistroPonto> items) {
+  Map<DateTime, List<RegistroPonto>> groupedItems = {};
 
+  for (var item in items) {
+    DateTime date = item.dataMarcacaoPonto;
+    DateTime dateOnly = DateTime(date.year, date.month, date.day);
+    if (groupedItems.containsKey(dateOnly)) {
+      groupedItems[dateOnly]!.add(item);
+    } else {
+      groupedItems[dateOnly] = [item];
+    }
+  }
 
-
+  return groupedItems.values.toList();
+}
