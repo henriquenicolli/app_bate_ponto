@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
 import '../../../model/enums/tipo_marcacao.dart';
+import '../../../utils/date_utils.dart';
 
 LocationData currentLocation = LocationData.fromMap({
   'latitude': -23.5505,
@@ -17,7 +18,8 @@ TipoMarcacao? tipoMarcacao = TipoMarcacao.ENTRADA;
 const String fusoHorarioMarcacao = "GMT-3";
 
 ///
-/// Classe [RegistrarPontoButton], componente do botão RegistrarPonto que ao ser clicado exibe um dialogo
+/// Classe [RegistrarPontoButton], componente do botão RegistrarPonto que ao ser clicado exibe um dialog para
+/// registrar uma marcacao de ponto
 ///
 class RegistrarPontoButton extends StatefulWidget {
   const RegistrarPontoButton({Key? key}) : super(key: key);
@@ -136,8 +138,13 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
   }
 
   Future<int> _registraPonto() async {
+    final String dataMarcacaoPonto = getDataAtualFormatada();
+    final String horaMarcacaoPonto = getHoraAtualFormatada();
+
     try {
       int? response = await ApiRequestService().postRegistraPonto(
+        dataMarcacaoPonto,
+        horaMarcacaoPonto,
         currentLocation,
         tipoMarcacao!,
         fusoHorarioMarcacao,
@@ -147,6 +154,8 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
         1,
         "O",
         "576475e7-e365-4d71-be93-f8182866e102",
+        false,
+        false
       );
 
       if (response == 200 || response == 202) {

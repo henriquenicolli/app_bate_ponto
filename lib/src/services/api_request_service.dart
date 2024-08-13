@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:location/location.dart';
 
 import '../configuration/api_config_defaults.dart';
@@ -8,6 +10,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
 
 class ApiRequestService {
 
@@ -135,6 +138,8 @@ class ApiRequestService {
   /// Metodo POST [postRegistraPonto] que cria um novo registro de ponto.
   ///
   Future<int?> postRegistraPonto(
+      String dataMarcacaoPonto,
+      String horaMarcacaoPonto,
       LocationData currentLocation,
       TipoMarcacao tipoMarcacao,
       String fusoHorarioMarcacao,
@@ -143,12 +148,9 @@ class ApiRequestService {
       String motivoMarcacao,
       int coletorRegistro,
       String fonteMarcacao,
-      String idEmpregado) async {
-    final DateTime now = DateTime.now();
-    final String dataMarcacaoPonto =
-        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-    final String horaMarcacaoPonto =
-        '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
+      String idEmpregado,
+      bool registroAlterado,
+      bool registroAlteradoAprovacao) async {
 
     final response = await _dio.post(
       ApiConfig.postRegistrarPontoPath,
@@ -168,7 +170,9 @@ class ApiRequestService {
         'coletorRegistro': coletorRegistro,
         'fonteMarcacao': fonteMarcacao,
         'idEmpregado': idEmpregado,
-        'tipoMarcacao': tipoMarcacao.codigo
+        'tipoMarcacao': tipoMarcacao.codigo,
+        'registroAlterado': registroAlterado,
+        'registroAlteradoAprovacao': registroAlteradoAprovacao,
       }),
     );
 

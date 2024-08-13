@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 String getDayOfWeek(int weekday) {
   switch (weekday) {
     case 1:
@@ -49,3 +51,30 @@ String getMonthName(int month) {
       return '';
   }
 }
+
+///
+/// Retorna a data atual formato "AAAA-MM-DD"
+///
+String getDataAtualFormatada() {
+  final DateTime now = DateTime.now();
+  return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+}
+
+///
+/// Retorna a hora atual no formato "HH:MM:SS"
+///
+String getHoraAtualFormatada() {
+  final DateTime now = DateTime.now();
+  return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
+}
+
+///
+/// Retorna a data atual formato "AAAA-MM-DD"
+///
+String getHoraFormatadaFromDateTime(DateTime selectedDate) => '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
+
+///
+/// Retorna a hora atual no formato "HH:MM:SS"
+///
+String getHoraFormatadaFromTimeOfDay(TimeOfDay selectedTime) => '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}:00';
+
