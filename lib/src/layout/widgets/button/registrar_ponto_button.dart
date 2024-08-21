@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
@@ -5,8 +7,10 @@ import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../model/enums/tipo_marcacao.dart';
+import '../../../services/internet_connectivity_service.dart';
 import '../../../utils/date_utils.dart';
 
 LocationData currentLocation = LocationData.fromMap({
@@ -138,6 +142,12 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
   }
 
   Future<int> _registraPonto() async {
+
+    if (!InternetConnectivityService.instance.hasInternetConnection) {
+      // salva registro de ponto no SharedPreferences
+      return await salvarPontoPreferences();
+    }
+
     final String dataMarcacaoPonto = getDataAtualFormatada();
     final String horaMarcacaoPonto = getHoraAtualFormatada();
 
@@ -166,6 +176,24 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
     } catch (exc) {
       return -1;
     }
+  }
+
+  Future<int> salvarPontoPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> registrosPonto = prefs.getStringList('registrosPonto') ?? [];
+
+    Map<String, dynamic> novoRegistroPonto = {
+      'dataMarcacaoPonto': getDataAtualFormatada(),
+      'horaMarcacaoPonto': getHoraAtualFormatada(),
+      'latitude': currentLocation.latitude!,
+      'longitude': currentLocation.longitude!,
+      'tipoMarcacao': tipoMarcacao!.codigo,
+    };
+
+    registrosPonto.add(jsonEncode(novoRegistroPonto));
+    await prefs.setStringList('registrosPonto', registrosPonto);
+
+    return 1;
   }
 
   void mostraDialogErroRegistroPonto() {
