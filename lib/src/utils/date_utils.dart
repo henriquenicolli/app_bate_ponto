@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 String getDayOfWeek(int weekday) {
   switch (weekday) {
     case 1:
-      return 'Domingo';
-    case 2:
       return 'Segunda-feira';
-    case 3:
+    case 2:
       return 'Terça-feira';
-    case 4:
+    case 3:
       return 'Quarta-feira';
-    case 5:
+    case 4:
       return 'Quinta-feira';
-    case 6:
+    case 5:
       return 'Sexta-feira';
-    case 7:
+    case 6:
       return 'Sábado';
+    case 7:
+      return 'Domingo';
     default:
       return '';
   }
@@ -63,24 +63,34 @@ String getDataAtualFormatada() {
 ///
 /// Retorna a hora atual no formato "HH:MM:SS"
 ///
-String getHoraAtualFormatada() {
+String formatHoraAtualHHmmSS() {
   final DateTime now = DateTime.now();
   return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
 }
 
 ///
+/// Retorna a data atual formato "DD-MM-AAAA"
+///
+String formatDateTimeDDmmAAAA(DateTime dateTime) {
+  return '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}';
+}
+
+///
 /// Retorna a data atual formato "AAAA-MM-DD"
 ///
-String getHoraFormatadaFromDateTime(DateTime selectedDate) => '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
+String formatDateTimeAAAAmmDD(DateTime selectedDate) => '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
 
 ///
 /// Retorna a hora atual no formato "HH:MM:SS"
 ///
-String getHoraFormatadaFromTimeOfDay(TimeOfDay selectedTime) => '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}:00';
+String formatTimeOfDayHHmmSS(TimeOfDay selectedTime) => '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}:00';
+
+
 
 ///
-/// Retorna a data atual formato "DD-MM-AAAA"
+/// Recebe uma string no formato de tempo (por exemplo, "12:30") e a converte em um objeto TimeOfDay.
 ///
-String getDataAtualFormatadaFromDateTime(DateTime dateTime) {
-  return '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}';
+TimeOfDay parseTimeOfDay(String timeString) {
+  final parts = timeString.split(':');
+  return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
 }

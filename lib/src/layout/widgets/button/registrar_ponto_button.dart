@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app_bate_ponto/src/configuration/app_layout_defaults.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -48,7 +47,7 @@ class _RegistrarPontoButtonState extends State<RegistrarPontoButton> {
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppLayoutDefaults.secondaryColor,
+          backgroundColor: Colors.green,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           shape: RoundedRectangleBorder(
@@ -149,7 +148,7 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
     }
 
     final String dataMarcacaoPonto = getDataAtualFormatada();
-    final String horaMarcacaoPonto = getHoraAtualFormatada();
+    final String horaMarcacaoPonto = formatHoraAtualHHmmSS();
 
     try {
       int? response = await ApiRequestService().postRegistraPonto(
@@ -184,7 +183,7 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
 
     Map<String, dynamic> novoRegistroPonto = {
       'dataMarcacaoPonto': getDataAtualFormatada(),
-      'horaMarcacaoPonto': getHoraAtualFormatada(),
+      'horaMarcacaoPonto': formatHoraAtualHHmmSS(),
       'latitude': currentLocation.latitude!,
       'longitude': currentLocation.longitude!,
       'tipoMarcacao': tipoMarcacao!.codigo,

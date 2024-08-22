@@ -18,7 +18,7 @@ class PontoPage extends StatefulWidget {
 class _PontoPageState extends State<PontoPage> {
   late Future<RegistroPontoAtualSnapshot> _registroPontoSnapshot;
   final ApiRequestService _apiRequestService = ApiRequestService();
-  ValueNotifier<int> selectedButtonIndex = ValueNotifier<int>(0);
+  ValueNotifier<int> selectedButtonIndex = ValueNotifier<int>(1);
 
   @override
   void initState() {

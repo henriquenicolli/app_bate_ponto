@@ -19,7 +19,7 @@ class EspelhoPontoListView extends StatefulWidget {
 class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
 
   late Color containerColor = Colors.green;
-  late String displayText = "sem apontamento";
+  late String displayText = "Sem apontamento";
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
         verificaApontamentoRegistro(itemsByDate);
         return Card(
           child: ExpansionTile(
-            title: Text('Data: ${getDataAtualFormatadaFromDateTime(itemsByDate[0].dataMarcacaoPonto)}'),
+            title: Text('Data: ${formatDateTimeDDmmAAAA(itemsByDate[0].dataMarcacaoPonto)}'),
             subtitle: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -61,20 +61,24 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${registroSelecionado.horaFormatada} ${registroSelecionado.getTipoMarcacao}',
-                      style: const TextStyle(
-                        fontSize: 16,
+                    SizedBox(
+                      width: 120,
+                      child: Text(
+                        '${registroSelecionado.horaFormatada} ${registroSelecionado.getTipoMarcacao}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                     if (registroSelecionado.registroAlterado && !registroSelecionado.registroAlteradoAprovacao)
-                      Row(
-                        children: [
-                          Icon(Icons.warning, color: Colors.orangeAccent),
-                          Text('Pendente de aprovação', style: TextStyle(color: Colors.orangeAccent)),
-                          // Texto ao lado do ícone
-                        ],
-                      ),
+                       Row(
+                          children: [
+                            Icon(Icons.warning, color: Colors.orangeAccent),
+                            Text('Pendente de aprovação', style: TextStyle(color: Colors.orangeAccent, fontSize: 10)),
+                            // Texto ao lado do ícone
+                          ],
+                        ),
+
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
@@ -103,17 +107,28 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
   }
 
   Future<void> verificaApontamentoRegistro(List<RegistroPonto> itemsByDate) async {
+    int countE = 0;
+    int countS = 0;
+    DateTime currentDate = DateTime.now();
+
     for (var item in itemsByDate) {
       if (item.registroAlterado && !item.registroAlteradoAprovacao) {
         containerColor = Colors.orangeAccent;
         displayText = 'Pendente de aprovação';
         return;
-      } else if (false) {
-        // TRATAR INCONSISTENCIA DE MARCACAO
+      } else if (item.tipoMarcacao == 'E') {
+        countE++;
+      } else if (item.tipoMarcacao == 'S') {
+        countS++;
       }
     }
-    containerColor = Colors.green;
-    displayText = 'Sem apontamento';
+    if (countE != countS && itemsByDate[0].dataMarcacaoPonto.day != currentDate.day) {
+      containerColor = Colors.red;
+      displayText = 'Inconsistência de marcação';
+    } else {
+      containerColor = Colors.green;
+      displayText = 'Sem apontamento';
+    }
   }
 
 }
@@ -304,10 +319,6 @@ Future<int> _atualizarPonto(RegistroPonto registroPonto, BuildContext context) a
   }
 }
 
-TimeOfDay parseTimeOfDay(String timeString) {
-  final parts = timeString.split(':');
-  return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
-}
 
 ///
 /// Agrupa os registros de ponto por data

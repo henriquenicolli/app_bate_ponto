@@ -88,14 +88,14 @@ class _IncluirPontoCallDialogState extends State<IncluirPontoCallDialog> {
                 _selectDate(context);
               },
             ),
-            Text('Data selecionada: ${getHoraFormatadaFromDateTime(_selectedDate)} '),
+            Text('Data selecionada: ${formatDateTimeAAAAmmDD(_selectedDate)} '),
             TextButton(
               child: Text('Selecionar Hora'),
               onPressed: () {
                 _selectTime(context);
               },
             ),
-            Text('Hora selecionada: ${getHoraFormatadaFromTimeOfDay(_selectedTime)} '),
+            Text('Hora selecionada: ${formatTimeOfDayHHmmSS(_selectedTime)} '),
             RadioEntradaSaida(),
 
             if (_future != null)
@@ -131,8 +131,8 @@ class _IncluirPontoCallDialogState extends State<IncluirPontoCallDialog> {
         TextButton(
           onPressed: () {
             setState(() {
-              String dataMarcacaoPonto = getHoraFormatadaFromDateTime(_selectedDate);
-              String horaMarcacaoPonto = getHoraFormatadaFromTimeOfDay(_selectedTime);
+              String dataMarcacaoPonto = formatDateTimeAAAAmmDD(_selectedDate);
+              String horaMarcacaoPonto = formatTimeOfDayHHmmSS(_selectedTime);
               _future = _incluirPonto(dataMarcacaoPonto, horaMarcacaoPonto);
             });
           },
