@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/layout/widgets/navigation/navigation_bar.dart';
 
+import '../../configuration/api_config_defaults.dart';
 import '../../configuration/app_layout_defaults.dart';
 
 
@@ -94,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () async {
                       int? loginStatus = await apiRequestService.login(loginController.text, senhaController.text);
+                      print(loginStatus );
 
                       if (loginStatus == 200) {
                         Navigator.push(

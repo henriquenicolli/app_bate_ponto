@@ -78,3 +78,9 @@ String getHoraFormatadaFromDateTime(DateTime selectedDate) => '${selectedDate.ye
 ///
 String getHoraFormatadaFromTimeOfDay(TimeOfDay selectedTime) => '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}:00';
 
+///
+/// Retorna a data atual formato "DD-MM-AAAA"
+///
+String getDataAtualFormatadaFromDateTime(DateTime dateTime) {
+  return '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}';
+}

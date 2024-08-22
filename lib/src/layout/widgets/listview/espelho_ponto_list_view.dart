@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/model/enums/tipo_marcacao.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
 import '../../../services/api_request_service.dart';
+import '../../../utils/date_utils.dart';
 
 ///
 /// Componente [EspelhoPontoListView] ListView que exibe o espelho de ponto
@@ -17,6 +18,13 @@ class EspelhoPontoListView extends StatefulWidget {
 
 class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
 
+  late Color containerColor = Colors.green;
+  late String displayText = "sem apontamento";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +34,28 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
       itemCount: groupedItems.length,
       itemBuilder: (context, index) {
         List<RegistroPonto> itemsByDate = groupedItems[index];
+        verificaApontamentoRegistro(itemsByDate);
         return Card(
           child: ExpansionTile(
-            title: Text('Data: ${itemsByDate[0].dataMarcacaoPonto}'),
-            subtitle: Text('Sem apontamento'),
+            title: Text('Data: ${getDataAtualFormatadaFromDateTime(itemsByDate[0].dataMarcacaoPonto)}'),
+            subtitle: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: containerColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    displayText,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             children: itemsByDate.map((registroSelecionado) {
               return ListTile(
                 title: Row(
@@ -75,6 +101,21 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
       },
     );
   }
+
+  Future<void> verificaApontamentoRegistro(List<RegistroPonto> itemsByDate) async {
+    for (var item in itemsByDate) {
+      if (item.registroAlterado && !item.registroAlteradoAprovacao) {
+        containerColor = Colors.orangeAccent;
+        displayText = 'Pendente de aprovação';
+        return;
+      } else if (false) {
+        // TRATAR INCONSISTENCIA DE MARCACAO
+      }
+    }
+    containerColor = Colors.green;
+    displayText = 'Sem apontamento';
+  }
+
 }
 
 ///
@@ -284,5 +325,27 @@ List<List<RegistroPonto>> groupItemsByDate(List<RegistroPonto> items) {
     }
   }
 
-  return groupedItems.values.toList();
+  groupItensByHour(groupedItems);
+
+  var sortedGroupedItems = groupedItems.entries.toList()
+    ..sort((a, b) => a.key.compareTo(b.key));
+
+  return sortedGroupedItems.map((e) => e.value).toList();
+}
+
+///
+/// Agrupa os registros de ponto hora
+///
+void groupItensByHour(Map<DateTime, List<RegistroPonto>> groupedItems) {
+  for (var key in groupedItems.keys) {
+    groupedItems[key]!.sort((a, b) {
+      final aTime = a.horaMarcacaoPonto;
+      final bTime = b.horaMarcacaoPonto;
+      if (aTime.hour != bTime.hour) {
+        return aTime.hour.compareTo(bTime.hour);
+      } else {
+        return aTime.minute.compareTo(bTime.minute);
+      }
+    });
+  }
 }

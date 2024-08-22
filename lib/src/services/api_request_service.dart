@@ -62,6 +62,8 @@ class ApiRequestService {
 
     storeUserCredentials(username, password);
 
+    print('response.statusCode: ${response.statusCode}' " user -> "+ username);
+
     return response.statusCode == 200 ? 200 : 401;
   }
 
