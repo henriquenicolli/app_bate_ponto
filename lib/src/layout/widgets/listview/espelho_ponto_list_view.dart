@@ -52,7 +52,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
   }
 
   ///
-  /// Agrupa os registros de ponto por data
+  /// Agrupa os registros de ponto por data e trata a exibicao
   ///
   List<List<RegistroPonto>> groupItemsByDate(List<RegistroPonto> items) {
     Map<DateTime, List<RegistroPonto>> groupedItems = {};
@@ -64,6 +64,10 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
         groupedItems[dateOnly]!.add(item);
       } else {
         groupedItems[dateOnly] = [item];
+      }
+
+      if (item.registroExcluido && item.registroExcluidoAprovacao) {
+        groupedItems[dateOnly]!.remove(item);
       }
     }
 
@@ -125,7 +129,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 120,
+                      width: MediaQuery.of(context).size.width * 0.2,
                       child: Text(
                         '${registroSelecionado.horaFormatada} ${registroSelecionado.getTipoMarcacao}',
                         style: const TextStyle(
@@ -136,7 +140,7 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                     if (registroSelecionado.registroAlterado && !registroSelecionado.registroAlteradoAprovacao)
                       const Row(
                         children: [
-                          Icon(Icons.warning, color: Colors.orangeAccent),
+                          Icon(Icons.edit_calendar, color: Colors.orangeAccent),
                           Text('Pendente de aprovação', style: TextStyle(color: Colors.orangeAccent, fontSize: 10)),
                           // Texto ao lado do ícone
                         ],
@@ -145,8 +149,8 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                     if (registroSelecionado.registroExcluido && !registroSelecionado.registroExcluidoAprovacao)
                       const Row(
                         children: [
-                          Icon(Icons.warning, color: Colors.orangeAccent),
-                          Text('Exclusao pendente de aprovacao', style: TextStyle(color: Colors.orangeAccent, fontSize: 10)),
+                          Icon(Icons.delete, color: Colors.orangeAccent),
+                          Text('Pendente de aprovacao', style: TextStyle(color: Colors.orangeAccent, fontSize: 10)),
                           // Texto ao lado do ícone
                         ],
                       ),
