@@ -75,12 +75,22 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
-                return const CircularProgressIndicator();
+                return mostraCirularProgressIndicator();
               },
             ),
           ),
           IncluirRegistroButton(),
         ],
+      ),
+    );
+  }
+
+  Center mostraCirularProgressIndicator() {
+    return Center(
+      child: SizedBox(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../model/enums/tipo_marcacao.dart';
 import '../../../services/internet_connectivity_service.dart';
 import '../../../utils/date_utils.dart';
+import '../radiobutton/radio_entrada_saida.dart';
 
 LocationData currentLocation = LocationData.fromMap({
   'latitude': -23.5505,
@@ -86,7 +87,14 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
         child: ListBody(
           children: <Widget>[
             Text('Deseja confirmar o registro de ponto?'),
-            RadioEntradaSaida(),
+            RadioEntradaSaida(
+              tipoMarcacao: tipoMarcacao,
+              onTipoMarcacaoChanged: (TipoMarcacao? value) {
+                setState(() {
+                  tipoMarcacao = value;
+                });
+              },
+            ),
             MapScreen(),
             if (_future != null)
               FutureBuilder<int>(
@@ -244,43 +252,6 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
           ],
         );
       },
-    );
-  }
-}
-
-class RadioEntradaSaida extends StatefulWidget {
-  const RadioEntradaSaida({Key? key}) : super(key: key);
-
-  @override
-  State<RadioEntradaSaida> createState() => _RadioEntradaSaidaState();
-}
-
-class _RadioEntradaSaidaState extends State<RadioEntradaSaida> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        RadioListTile<TipoMarcacao>(
-          title: const Text('Entrada'),
-          value: TipoMarcacao.ENTRADA,
-          groupValue: tipoMarcacao,
-          onChanged: (TipoMarcacao? value) {
-            setState(() {
-              tipoMarcacao = value;
-            });
-          },
-        ),
-        RadioListTile<TipoMarcacao>(
-          title: const Text('Saída'),
-          value: TipoMarcacao.SAIDA,
-          groupValue: tipoMarcacao,
-          onChanged: (TipoMarcacao? value) {
-            setState(() {
-              tipoMarcacao = value;
-            });
-          },
-        ),
-      ],
     );
   }
 }

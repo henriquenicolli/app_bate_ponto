@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/model/enums/tipo_marcacao.dart';
 import 'package:flutter_app_bate_ponto/src/model/registro_ponto.dart';
@@ -17,7 +18,6 @@ class EspelhoPontoListView extends StatefulWidget {
 }
 
 class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
-
   late Color containerColor = Colors.green;
   late String displayText = "Sem apontamento";
 
@@ -70,32 +70,56 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
                         ),
                       ),
                     ),
-                    if (registroSelecionado.registroAlterado && !registroSelecionado.registroAlteradoAprovacao)
-                       Row(
-                          children: [
-                            Icon(Icons.warning, color: Colors.orangeAccent),
-                            Text('Pendente de aprovação', style: TextStyle(color: Colors.orangeAccent, fontSize: 10)),
-                            // Texto ao lado do ícone
-                          ],
-                        ),
 
-                    IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return EditarRegistroPontoDialog(
-                              registroSelecionado: registroSelecionado,
-                              onUpdate: () {
-                                setState(() {});
+                    if (registroSelecionado.registroAlterado && !registroSelecionado.registroAlteradoAprovacao)
+                      Row(
+                        children: [
+                          Icon(Icons.warning, color: Colors.orangeAccent),
+                          Text('Pendente de aprovação', style: TextStyle(color: Colors.orangeAccent, fontSize: 10)),
+                          // Texto ao lado do ícone
+                        ],
+                      ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return EditarRegistroPontoDialog(
+                                  registroSelecionado: registroSelecionado,
+                                  onUpdate: () {
+                                    setState(() {});
+                                  },
+                                  parentContext: context,
+                                );
                               },
-                              parentContext: context,
                             );
                           },
-                        );
-                      },
-                    ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return EditarRegistroPontoDialog(
+                                  registroSelecionado: registroSelecionado,
+                                  onUpdate: () {
+                                    setState(() {});
+                                  },
+                                  parentContext: context,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+
+                    )
                   ],
                 ),
               );
@@ -130,7 +154,6 @@ class _EspelhoPontoListViewState extends State<EspelhoPontoListView> {
       displayText = 'Sem apontamento';
     }
   }
-
 }
 
 ///
@@ -171,9 +194,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
                 onChanged: (String? horaSelecionada) {
                   setState(() {
                     if (horaSelecionada != null) {
-                      widget.registroSelecionado.setHoraMarcacaoPonto = parseTimeOfDay(horaSelecionada);
-                      widget.registroSelecionado.registroAlterado = true;
-                      widget.registroSelecionado.registroAlteradoAprovacao = false;
+                      atualizaRegistroPontoSelecionado(horaSelecionada, widget.registroSelecionado.getTipoMarcacao);
                     }
                   });
                 },
@@ -187,9 +208,7 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
                 onChanged: (String? tipoMarcacao) {
                   if (tipoMarcacao != null) {
                     setState(() {
-                      widget.registroSelecionado.setTipoMarcacao = tipoMarcacao;
-                      widget.registroSelecionado.registroAlterado = true;
-                      widget.registroSelecionado.registroAlteradoAprovacao = false;
+                      atualizaRegistroPontoSelecionado(widget.registroSelecionado.horaFormatada, tipoMarcacao);
                     });
                   }
                 },
@@ -244,6 +263,13 @@ class _EditarRegistroPontoDialogState extends State<EditarRegistroPontoDialog> {
         ),
       ],
     );
+  }
+
+  void atualizaRegistroPontoSelecionado(String horaSelecionada, String tipoMarcacao) {
+    widget.registroSelecionado.setTipoMarcacao = tipoMarcacao;
+    widget.registroSelecionado.setHoraMarcacaoPonto = parseTimeOfDay(horaSelecionada);
+    widget.registroSelecionado.registroAlterado = true;
+    widget.registroSelecionado.registroAlteradoAprovacao = false;
   }
 
   void mostraDialogRegistradoSucesso() {
@@ -319,7 +345,6 @@ Future<int> _atualizarPonto(RegistroPonto registroPonto, BuildContext context) a
   }
 }
 
-
 ///
 /// Agrupa os registros de ponto por data
 ///
@@ -338,8 +363,7 @@ List<List<RegistroPonto>> groupItemsByDate(List<RegistroPonto> items) {
 
   groupItensByHour(groupedItems);
 
-  var sortedGroupedItems = groupedItems.entries.toList()
-    ..sort((a, b) => a.key.compareTo(b.key));
+  var sortedGroupedItems = groupedItems.entries.toList()..sort((a, b) => a.key.compareTo(b.key));
 
   return sortedGroupedItems.map((e) => e.value).toList();
 }

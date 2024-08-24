@@ -6,6 +6,7 @@ import '../../../model/enums/tipo_marcacao.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 
 import '../../../utils/date_utils.dart';
+import '../radiobutton/radio_entrada_saida.dart';
 
 LocationData currentLocation = LocationData.fromMap({
   'latitude': -23.5505,
@@ -96,8 +97,14 @@ class _IncluirPontoCallDialogState extends State<IncluirPontoCallDialog> {
               },
             ),
             Text('Hora selecionada: ${formatTimeOfDayHHmmSS(_selectedTime)} '),
-            RadioEntradaSaida(),
-
+            RadioEntradaSaida(
+              tipoMarcacao: tipoMarcacao,
+              onTipoMarcacaoChanged: (TipoMarcacao? value) {
+                setState(() {
+                  tipoMarcacao = value;
+                });
+              },
+            ),
             if (_future != null)
               FutureBuilder<int>(
                 future: _future,
@@ -260,39 +267,4 @@ class _IncluirPontoCallDialogState extends State<IncluirPontoCallDialog> {
 ///
 /// TODO refatorar para um unico componente, compartilhado com [RegistrarPontoButton]
 ///
-class RadioEntradaSaida extends StatefulWidget {
-  const RadioEntradaSaida({Key? key}) : super(key: key);
 
-  @override
-  State<RadioEntradaSaida> createState() => _RadioEntradaSaidaState();
-}
-
-class _RadioEntradaSaidaState extends State<RadioEntradaSaida> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        RadioListTile<TipoMarcacao>(
-          title: const Text('Entrada'),
-          value: TipoMarcacao.ENTRADA,
-          groupValue: tipoMarcacao,
-          onChanged: (TipoMarcacao? value) {
-            setState(() {
-              tipoMarcacao = value;
-            });
-          },
-        ),
-        RadioListTile<TipoMarcacao>(
-          title: const Text('Saída'),
-          value: TipoMarcacao.SAIDA,
-          groupValue: tipoMarcacao,
-          onChanged: (TipoMarcacao? value) {
-            setState(() {
-              tipoMarcacao = value;
-            });
-          },
-        ),
-      ],
-    );
-  }
-}
