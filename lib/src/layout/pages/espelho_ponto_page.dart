@@ -31,6 +31,16 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
     _registroPontoList = _apiRequestService.fetchRegistroPontoMesList(_mesSelecionado, '1');
   }
 
+  Center mostraCirularProgressIndicator() {
+    return Center(
+      child: SizedBox(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,13 +95,4 @@ class _EspelhoPontoPageState extends State<EspelhoPontoPage> {
     );
   }
 
-  Center mostraCirularProgressIndicator() {
-    return Center(
-      child: SizedBox(
-        width: 50,
-        height: 50,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
 }

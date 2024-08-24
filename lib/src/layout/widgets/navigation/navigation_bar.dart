@@ -29,6 +29,47 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
     return const PontoPage();
   }
 
+  ///
+  /// Metodo [mostrarLogoutDialog] exibe o dialog responsavel por executar a acao de logout.
+  ///
+  mostrarLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Deseja sair?'),
+          actions: [
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Deslogar'),
+              onPressed: () {
+                limparSharedPreferences();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => AppBarApp()),
+                      (Route<dynamic> route) => false,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  ///
+  /// Metodo [limparSharedPreferences] limpa todas as opcoes armazenadas no SharedPreferences.
+  ///
+  Future<void> limparSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -77,43 +118,4 @@ class _AdaptativeNavigationBarState extends State<CustomNavigationBar> {
             }));
   }
 
-  ///
-  /// Metodo [mostrarLogoutDialog] exibe o dialog responsavel por executar a acao de logout.
-  ///
-  mostrarLogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Deseja sair?'),
-          actions: [
-            TextButton(
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Deslogar'),
-              onPressed: () {
-                limparSharedPreferences();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => AppBarApp()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  ///
-  /// Metodo [limparSharedPreferences] limpa todas as opcoes armazenadas no SharedPreferences.
-  ///
-  Future<void> limparSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-  }
 }

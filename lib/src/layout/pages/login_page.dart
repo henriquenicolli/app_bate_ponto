@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_bate_ponto/src/services/api_request_service.dart';
 import 'package:flutter_app_bate_ponto/src/layout/widgets/navigation/navigation_bar.dart';
 
-import '../../configuration/api_config_defaults.dart';
 import '../../configuration/app_layout_defaults.dart';
 
 
@@ -24,6 +23,37 @@ class _LoginPageState extends State<LoginPage> {
     loginController.dispose();
     senhaController.dispose();
     super.dispose();
+  }
+
+  void mostrarDialogFalhaLogin(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Erro de Login',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Usuário ou senha incorretos. Por favor, tente novamente.',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Fechar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -116,36 +146,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-
-
-void mostrarDialogFalhaLogin(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(
-          'Erro de Login',
-          style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          'Usuário ou senha incorretos. Por favor, tente novamente.',
-          style: TextStyle(
-            color: Colors.red,
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Fechar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
