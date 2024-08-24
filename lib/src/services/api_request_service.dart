@@ -120,8 +120,7 @@ class ApiRequestService {
   /// Metodo GET [fetchRegistroPontoMesList] que recupera os registors de ponto do mes.
   ///
   Future<List<RegistroPonto>> fetchRegistroPontoMesList(String mesRegistros, String idFuncionario) async {
-    final Uri url =
-    Uri.parse('${ApiConfig.getRegistroPontoMes}?mes_selecionado=$mesRegistros&id_funcionario=$idFuncionario');
+    final Uri url = Uri.parse('${ApiConfig.getRegistroPontoMes}?mes_selecionado=$mesRegistros&id_funcionario=$idFuncionario');
 
     final response = await _dio.get(
       url.toString(),
@@ -212,6 +211,28 @@ class ApiRequestService {
         'latitude': registroPonto.latitude,
         'longitude': registroPonto.longitude,
       }),
+    );
+
+    return response.statusCode;
+  }
+
+  ///
+  /// Metodo PATCH [deletarRegistroPonto] atualiza um registro de ponto.
+  ///
+  Future<int?> deletarRegistroPonto(RegistroPonto registroPonto) async {
+
+    final int numeroSequencialRegistro = registroPonto.numSeqRegistro;
+
+    final Uri url =
+    Uri.parse('${ApiConfig.deleteRegistroPontoPath}?numero_sequencial_registro=$numeroSequencialRegistro');
+
+    final response = await _dio.delete(
+      url.toString(),
+      options: Options(headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $_token'
+      }),
+
     );
 
     return response.statusCode;

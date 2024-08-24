@@ -30,6 +30,20 @@ class _PontoPageState extends State<PontoPage> {
     _registroPontoSnapshot = _apiRequestService.fetchRegistroPontoAtualSnapshot();
   }
 
+  Future<RegistroPontoAtualSnapshot> buildRegistroPontoSnapshot(int selectedButtonIndex) async {
+    RegistroPontoAtualSnapshot snapshot = await _registroPontoSnapshot;
+
+    if (selectedButtonIndex == 0) {
+      snapshot.setRegistroPontoSelecionadoList = snapshot.registroPontoOntemList;
+      snapshot.sethorasTrabalhadasSelecionado = snapshot.horasTrabalhadasOntem;
+      return _registroPontoSnapshot;
+    } else {
+      snapshot.setRegistroPontoSelecionadoList = snapshot.registroPontoHojeList;
+      snapshot.sethorasTrabalhadasSelecionado = snapshot.horasTrabalhadasHoje;
+      return _registroPontoSnapshot;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
@@ -94,17 +108,5 @@ class _PontoPageState extends State<PontoPage> {
         });
   }
 
-  Future<RegistroPontoAtualSnapshot> buildRegistroPontoSnapshot(int selectedButtonIndex) async {
-    RegistroPontoAtualSnapshot snapshot = await _registroPontoSnapshot;
 
-    if (selectedButtonIndex == 0) {
-      snapshot.setRegistroPontoSelecionadoList = snapshot.registroPontoOntemList;
-      snapshot.sethorasTrabalhadasSelecionado = snapshot.horasTrabalhadasOntem;
-      return _registroPontoSnapshot;
-    } else {
-      snapshot.setRegistroPontoSelecionadoList = snapshot.registroPontoHojeList;
-      snapshot.sethorasTrabalhadasSelecionado = snapshot.horasTrabalhadasHoje;
-      return _registroPontoSnapshot;
-    }
-  }
 }

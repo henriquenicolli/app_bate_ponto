@@ -19,6 +19,8 @@ class RegistroPonto {
   String empregado;
   bool registroAlterado;
   bool registroAlteradoAprovacao;
+  bool registroExcluido;
+  bool registroExcluidoAprovacao;
 
   RegistroPonto({
     required this.numSeqRegistro,
@@ -37,7 +39,9 @@ class RegistroPonto {
     required this.fonteMarcacao,
     required this.empregado,
     required this.registroAlterado,
-    required this.registroAlteradoAprovacao
+    required this.registroAlteradoAprovacao,
+    required this.registroExcluido,
+    required this.registroExcluidoAprovacao
   });
 
   factory RegistroPonto.fromJson(Map<String, dynamic> json) {
@@ -64,7 +68,9 @@ class RegistroPonto {
         fonteMarcacao: json['fonteMarcacao'],
         empregado: json['empregado'],
         registroAlterado: json['registroAlterado'] ?? false,
-        registroAlteradoAprovacao: json['registroAlteradoAprovacao'] ?? false
+        registroAlteradoAprovacao: json['registroAlteradoAprovacao'] ?? false,
+        registroExcluido: json['excluido'] ?? false,
+        registroExcluidoAprovacao: json['registroExcluidoAprovacao'] ?? false
       );
     } else {
       throw const FormatException('Failed to parse registro ponto');
