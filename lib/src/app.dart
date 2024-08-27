@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_bate_ponto/src/configuration/app_constants.dart';
 import 'package:process_run/shell.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'layout/pages/login_page.dart';
+import 'layout/widgets/navigation/navigation_bar.dart';
 
 
 class AppBarApp extends StatelessWidget {
   const AppBarApp({super.key});
+
+  Future<bool> _isUserLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString(AppConstants.USERNAME);
+    String? password = prefs.getString(AppConstants.PASSWORD);
+    return username != null && password != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +32,21 @@ class AppBarApp extends StatelessWidget {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue, // Define a cor padrão para azul
-      ),
-      home: const LoginPage(),
+    return FutureBuilder<bool>(
+      future: _isUserLoggedIn(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else {
+          bool isLoggedIn = snapshot.data ?? false;
+          return MaterialApp(
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: isLoggedIn ? const CustomNavigationBar() : const LoginPage(),
+          );
+        }
+      },
     );
   }
 

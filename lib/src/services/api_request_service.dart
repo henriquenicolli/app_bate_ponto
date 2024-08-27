@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:location/location.dart';
 
 import '../configuration/api_config_defaults.dart';
+import '../configuration/app_constants.dart';
 import '../model/enums/tipo_marcacao.dart';
 import '../model/registro_ponto.dart';
 import '../model/registro_ponto_snapshot.dart';
@@ -14,8 +15,6 @@ import 'package:flutter_app_bate_ponto/src/utils/date_utils.dart';
 
 class ApiRequestService {
 
-  final String USERNAME = 'username';
-  final String PASSWORD = 'password';
   final Dio _dio = Dio();
   String? _token;
 
@@ -55,8 +54,8 @@ class ApiRequestService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        USERNAME: username,
-        PASSWORD: password,
+        AppConstants.USERNAME: username,
+        AppConstants.PASSWORD: password,
       }),
     );
 
@@ -73,8 +72,8 @@ class ApiRequestService {
   ///
   Future<String> _generateNewToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(USERNAME);
-    String? password = prefs.getString(PASSWORD);
+    String? username = prefs.getString(AppConstants.USERNAME);
+    String? password = prefs.getString(AppConstants.PASSWORD);
 
     final response = await http.post(
       Uri.parse(ApiConfig.getNewToken),
@@ -243,7 +242,7 @@ class ApiRequestService {
   ///
   void storeUserCredentials(String username, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(USERNAME, username);
-    await prefs.setString(PASSWORD, password);
+    await prefs.setString(AppConstants.USERNAME, username);
+    await prefs.setString(AppConstants.PASSWORD, password);
   }
 }
