@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/api_request_service.dart';
 import '../../services/internet_connectivity_service.dart';
+import '../../utils/date_utils.dart';
 import '../widgets/text/welcome_text.dart';
 
 class InicioPage extends StatefulWidget {
@@ -17,6 +18,8 @@ class InicioPage extends StatefulWidget {
 }
 
 class _InicioPageState extends State<InicioPage> {
+
+  String horaAtual = '';
 
   void _reenviaPonto() async {
     if (InternetConnectivityService.instance.hasInternetConnection) {
@@ -44,11 +47,10 @@ class _InicioPageState extends State<InicioPage> {
                 TipoMarcacao.fromString(tipoMarcacao),
                 fusoHorarioMarcacao,
                 true,
-                "123.456.789-00",
+                "123.456.789-00", //CPF o BACKEND VALIDA O USUARIO E CARREGA
                 "Inicio de expediente",
                 1,
                 "O",
-                "576475e7-e365-4d71-be93-f8182866e102",
                 false,
                 false
             );
@@ -65,11 +67,17 @@ class _InicioPageState extends State<InicioPage> {
     }
   }
 
+  void _fetchHoraAtual() async {
+    DateTime fetchedHoraAtual = await ApiRequestService().fetchHoraAtual();
+    setState(() {
+      horaAtual = formatDateTimeHHmmSS(fetchedHoraAtual);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-
+    _fetchHoraAtual();
     if (InternetConnectivityService.instance.hasInternetConnection) {
       _reenviaPonto();
     }
@@ -77,10 +85,11 @@ class _InicioPageState extends State<InicioPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Material(
+    return Material(
       child: Column(
         children: [
           WelcomeWidget(),
+          Text('Hora atual: $horaAtual'),
           RegistrarPontoButton(),
           Padding(
             padding: EdgeInsets.all(32),

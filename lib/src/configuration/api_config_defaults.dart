@@ -10,6 +10,7 @@ class ApiConfig {
   static const String _registroPontoSnapshotGET = 'v1/rep/registroPonto/snapshot';
   static const String _registrosPontoMesGET = 'v1/rep/registroPonto';
   static const String _registrosPontoMesDELETE = 'v1/rep/registroPonto/deletar';
+  static const String _horaAtualGET = 'v1/rep/horaAtual';
   static const String _token = 'v1/rep/authenticate';
 
   static String get _apiUrl {
@@ -38,6 +39,10 @@ class ApiConfig {
 
   static String get deleteRegistroPontoPath {
     return _apiUrl + _registrosPontoMesDELETE;
+  }
+
+  static String get getHoraAtualPath {
+    return _apiUrl + _horaAtualGET;
   }
 
   static String get getNewToken {

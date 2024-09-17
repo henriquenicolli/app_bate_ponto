@@ -78,7 +78,6 @@ class _IncluirPontoCallDialogState extends State<IncluirPontoCallDialog> {
           "Inicio de expediente",
           1,
           "I", // FONTE MARCACAO {I = marcação incluída manualmente}
-          "576475e7-e365-4d71-be93-f8182866e102",
           true, // REGISTRO ALTERADO
           false // REGISTRO ALTERADO SEM APROVACAO
       );

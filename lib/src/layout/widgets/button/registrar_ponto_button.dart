@@ -170,7 +170,6 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
         "Inicio de expediente",
         1,
         "O",
-        "576475e7-e365-4d71-be93-f8182866e102",
         false,
         false
       );

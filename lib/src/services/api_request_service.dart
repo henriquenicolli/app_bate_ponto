@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 import '../configuration/api_config_defaults.dart';
@@ -59,7 +60,7 @@ class ApiRequestService {
       }),
     );
 
-    storeUserCredentials(username, password);
+    storeUserCredentials(username, password, json.decode(response.body)['empregado']);
 
     print('response.statusCode: ${response.statusCode}' " user -> "+ username);
 
@@ -116,6 +117,40 @@ class ApiRequestService {
   }
 
   ///
+  /// Metodo GET [fetchHoraAtual] que recupera o snapshot do registro de ponto atual.
+  ///
+  Future<DateTime> fetchHoraAtual() async {
+    try {
+      _token = await _generateNewToken();
+
+      final response = await _dio.get(
+        ApiConfig.getHoraAtualPath,
+        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+      );
+      if (response.statusCode == 200) {
+
+        String horaAtual = response.data['horaAtual'];
+
+        List<String> parts = horaAtual.split(':');
+        int hour = int.parse(parts[0]);
+        int minute = int.parse(parts[1]);
+
+        List<String> secondParts = parts[2].split('.');
+        int second = int.parse(secondParts[0]);
+        int millisecond = int.parse(secondParts[1]);
+
+        return DateTime(0, 1, 1, hour, minute, second, millisecond);
+      } else {
+        throw Exception('Failed to load registros de ponto');
+      }
+    } catch (e) {
+      print('erro ao carregar hora atual : $e');
+      throw Exception('Failed to load hora atual');
+    }
+  }
+
+
+  ///
   /// Metodo GET [fetchRegistroPontoMesList] que recupera os registors de ponto do mes.
   ///
   Future<List<RegistroPonto>> fetchRegistroPontoMesList(String mesRegistros, String idFuncionario) async {
@@ -148,9 +183,11 @@ class ApiRequestService {
       String motivoMarcacao,
       int coletorRegistro,
       String fonteMarcacao,
-      String idEmpregado,
       bool registroAlterado,
       bool registroAlteradoAprovacao) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idEmpregado = prefs.getString(AppConstants.EMPREGADO_ID);
 
     final response = await _dio.post(
       ApiConfig.postRegistrarPontoPath,
@@ -189,6 +226,9 @@ class ApiRequestService {
     final String formattedDataMarcacaoPonto =
         '${registroPonto.dataMarcacaoPonto.year}-${registroPonto.dataMarcacaoPonto.month.toString().padLeft(2, '0')}-${registroPonto.dataMarcacaoPonto.day.toString().padLeft(2, '0')}';
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idEmpregado = prefs.getString(AppConstants.EMPREGADO_ID);
+
     final response = await _dio.patch(
       ApiConfig.patchAtualizarPontoPath,
       options: Options(headers: {
@@ -200,7 +240,7 @@ class ApiRequestService {
         'horaMarcacaoPonto': formattedDataHoraMarcacaoPonto,
         'dataMarcacaoPonto': formattedDataMarcacaoPonto,
         'tipoMarcacao': registroPonto.tipoMarcacao,
-        'idEmpregado': registroPonto.empregado,
+        'idEmpregado': idEmpregado,
         'motivoMarcacao': registroPonto.motivoMarcacao,
         'coletorRegistro': registroPonto.coletorRegistro,
         'fonteMarcacao': registroPonto.fonteMarcacao,
@@ -240,9 +280,10 @@ class ApiRequestService {
   ///
   /// Metodo [storeUserCredentials] que armazena as credenciais de usuario no SharedPreferences.
   ///
-  void storeUserCredentials(String username, String password) async {
+  void storeUserCredentials(String username, String password, empregadoId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(AppConstants.USERNAME, username);
     await prefs.setString(AppConstants.PASSWORD, password);
+    await prefs.setString(AppConstants.EMPREGADO_ID, empregadoId);
   }
 }

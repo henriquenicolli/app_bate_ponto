@@ -69,6 +69,15 @@ String formatHoraAtualHHmmSS() {
 }
 
 ///
+/// Retorna a hora no formato "HH:MM:SS" a partir de um objeto DateTime
+///
+String formatDateTimeHHmmSS(DateTime dateTime) {
+  final DateTime now = DateTime.now();
+  return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
+}
+
+
+///
 /// Retorna a data atual formato "DD-MM-AAAA"
 ///
 String formatDateTimeDDmmAAAA(DateTime dateTime) {
