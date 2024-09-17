@@ -15,7 +15,8 @@ TipoMarcacao? tipoMarcacao = TipoMarcacao.ENTRADA;
 const String fusoHorarioMarcacao = "GMT-3";
 
 ///
-/// Classe [IncluirPontoCallDialog], componente que exibe um dialog com a opcao de realizar um registro de ponto
+/// Classe [IncluirPontoCallDialog], componente que exibe um dialog com a opcao
+/// de realizar um registro de ponto
 ///
 class IncluirPontoCallDialog extends StatefulWidget {
   final BuildContext parentContext;

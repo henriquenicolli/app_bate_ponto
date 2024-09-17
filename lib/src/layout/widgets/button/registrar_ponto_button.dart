@@ -155,13 +155,10 @@ class _RegistrarPontoCallDialogState extends State<RegistrarPontoCallDialog> {
       return await salvarPontoPreferences();
     }
 
-    final String dataMarcacaoPonto = getDataAtualFormatada();
-    final String horaMarcacaoPonto = formatHoraAtualHHmmSS();
-
     try {
       int? response = await ApiRequestService().postRegistraPonto(
-        dataMarcacaoPonto,
-        horaMarcacaoPonto,
+        null, // salvo no servidor
+        null, // salvo no servidor
         currentLocation,
         tipoMarcacao!,
         fusoHorarioMarcacao,

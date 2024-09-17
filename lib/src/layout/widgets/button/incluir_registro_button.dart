@@ -15,7 +15,8 @@ const String fusoHorarioMarcacao = "GMT-3";
 
 
 ///
-/// Classe [IncluirRegistroButton], componente do botão IncluirRegistroButton que ao ser clicado exibe um dialogo
+/// Classe [IncluirRegistroButton], componente do botão IncluirRegistroButton que ao ser clicado exibe
+/// um dialogo
 /// para permitir a inclusao de um registro de ponto
 ///
 class IncluirRegistroButton extends StatelessWidget {

@@ -173,8 +173,8 @@ class ApiRequestService {
   /// Metodo POST [postRegistraPonto] que cria um novo registro de ponto.
   ///
   Future<int?> postRegistraPonto(
-      String dataMarcacaoPonto,
-      String horaMarcacaoPonto,
+      String? dataMarcacaoPonto,
+      String? horaMarcacaoPonto,
       LocationData currentLocation,
       TipoMarcacao tipoMarcacao,
       String fusoHorarioMarcacao,
